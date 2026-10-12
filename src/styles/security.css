@@ -1,0 +1,40 @@
+/* Security & Audit Styles */
+.audit-diff-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  background-color: var(--color-bg-subtle);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  margin: var(--space-3) 0;
+}
+
+.diff-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.diff-label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+}
+
+.diff-old {
+  color: var(--color-error);
+  background-color: #FEE2E2;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-family: monospace;
+}
+
+.diff-new {
+  color: var(--color-success);
+  background-color: #DCFCE7;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-family: monospace;
+}

@@ -1,0 +1,31 @@
+/* Roles & Permissions Styles */
+.permission-matrix-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.permission-matrix-table th, .permission-matrix-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-border-subtle);
+  text-align: center;
+}
+
+.permission-matrix-table th:first-child, .permission-matrix-table td:first-child {
+  text-align: left;
+  font-weight: var(--font-weight-medium);
+}
+
+.role-header-cell {
+  background-color: var(--color-bg-subtle);
+  font-weight: var(--font-weight-semibold);
+}
+
+.role-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}

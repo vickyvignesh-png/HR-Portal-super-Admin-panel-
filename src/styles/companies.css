@@ -1,0 +1,139 @@
+/* Company Module Styles */
+.company-avatar-box {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-sm);
+  flex-shrink: 0;
+  border: 1px solid var(--color-primary-border);
+}
+
+.company-name-cell {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.company-name-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.company-name-link {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.company-name-link:hover {
+  color: var(--color-primary);
+}
+
+.company-sub-id {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* Details Page Layout */
+.company-details-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: var(--space-6);
+}
+
+.company-profile-card {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-4);
+}
+
+.profile-avatar-large {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-xl);
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  border: 2px solid var(--color-primary-border);
+}
+
+.company-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.info-label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+
+.info-value {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+/* GST Verification Box */
+.gst-verification-card {
+  border: 1px solid #BAE6FD;
+  background-color: #F0F9FF;
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.gst-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.simulation-note {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  background-color: #FEF3C7;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid #FDE68A;
+}
+
+/* Actions Menu */
+.action-buttons-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+@media (max-width: 900px) {
+  .company-details-layout {
+    grid-template-columns: 1fr;
+  }
+  .company-info-grid {
+    grid-template-columns: 1fr;
+  }
+}

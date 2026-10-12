@@ -1,0 +1,219 @@
+/* Company Subscription Module Styles */
+.subscriptions-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.table-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-border);
+  flex-wrap: wrap;
+}
+
+.table-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.reset-filters-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-white);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.reset-filters-btn:hover {
+  background-color: var(--color-bg-subtle);
+  color: var(--color-text-primary);
+}
+
+/* Plan cell styling */
+.plan-cell-box {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.plan-name-bold {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.plan-version-tag {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+/* Combined Start and End Date Cell */
+.date-range-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.date-start-text {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.date-end-muted {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+/* Action column */
+.subscription-action-icons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.subscription-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-white);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.subscription-action-btn:hover {
+  background-color: #EFF6FF;
+  border-color: #93C5FD;
+  color: #2563EB;
+}
+
+.subscription-action-btn:focus-visible {
+  outline: 2px solid #2563EB;
+  outline-offset: 1px;
+}
+
+/* View Modal 5 Sections Layout */
+.subscription-view-sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-height: 72vh;
+  overflow-y: auto;
+  padding-right: var(--space-1);
+}
+
+.subscription-section-block {
+  background-color: #F8FAFC;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+}
+
+.subscription-section-header {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  border-bottom: 1px solid var(--color-border-subtle);
+  padding-bottom: var(--space-2);
+}
+
+.subscription-section-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3) var(--space-4);
+}
+
+.subscription-field-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.subscription-field-item.full-width {
+  grid-column: 1 / -1;
+}
+
+.subscription-field-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  font-weight: var(--font-weight-medium);
+}
+
+.subscription-field-value {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.subscription-field-value.amount-highlight {
+  color: var(--color-primary);
+  font-size: var(--font-size-base);
+}
+
+/* Edit Form */
+.subscription-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-height: 72vh;
+  overflow-y: auto;
+  padding-right: var(--space-1);
+}
+
+.form-two-cols {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+.checkbox-control-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-top: var(--space-5);
+}
+
+.checkbox-control-row input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+.checkbox-control-row label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .subscription-section-grid,
+  .form-two-cols {
+    grid-template-columns: 1fr;
+  }
+}
