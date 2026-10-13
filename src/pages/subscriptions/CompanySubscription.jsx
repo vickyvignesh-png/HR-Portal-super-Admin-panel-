@@ -344,7 +344,6 @@ export const CompanySubscription = () => {
     <div className="subscriptions-container">
       <PageHeader
         title="Company Subscription"
-        description="Monitor active subscription contracts, track billing periods, and regulate license plans."
         actions={
           <Button variant="secondary" icon={Download} onClick={handleExportCSV}>
             Export CSV
@@ -361,7 +360,7 @@ export const CompanySubscription = () => {
               setSearchTerm(val);
               setCurrentPage(1);
             }}
-            placeholder="Search by Subscription ID or Company ID..."
+            placeholder="Search"
           />
 
           <select

@@ -4,7 +4,7 @@ import { Search, X } from 'lucide-react';
 export const SearchBar = ({
   value,
   onChange,
-  placeholder = 'Search...',
+  placeholder = 'Search',
   className = '',
   id
 }) => {

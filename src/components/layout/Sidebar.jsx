@@ -3,6 +3,9 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
   Building2,
+  BriefcaseBusiness,
+  Briefcase,
+  AlertTriangle,
   IndianRupee,
   ReceiptIndianRupee,
   BarChart3,
@@ -17,9 +20,10 @@ import {
   Activity,
   Layers,
   FileSpreadsheet,
-  TrendingUp,
   Users,
-  LineChart
+  LineChart,
+  Bell,
+  Sliders
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
@@ -33,35 +37,50 @@ export const Sidebar = ({
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Track expanded parent states
-  const [expandedMenus, setExpandedMenus] = useState(() => {
-    const path = location.pathname;
-    return {
-      company: path.startsWith('/companies') || path.startsWith('/subscriptions') || path.startsWith('/usage'),
-      billing: path.startsWith('/plans') || path.startsWith('/billing'),
-      reports: path.startsWith('/reports')
-    };
+  const getParentForPath = (path) => {
+    if (
+      path.startsWith('/companies') ||
+      path.startsWith('/subscriptions') ||
+      path.startsWith('/usage')
+    ) {
+      return 'company';
+    }
+    if (path.startsWith('/jobs')) {
+      return 'jobs';
+    }
+    if (path.startsWith('/plans') || path.startsWith('/billing') || path.startsWith('/payments')) {
+      return 'billing';
+    }
+    if (path.startsWith('/reports')) {
+      return 'reports';
+    }
+    if (path.startsWith('/settings')) {
+      return 'settings';
+    }
+    return null;
+  };
+
+  // Single-expanded-submenu accordion state: only one parent expanded at a time
+  const [expandedMenu, setExpandedMenu] = useState(() => {
+    return getParentForPath(location.pathname);
   });
 
-  // Keep parent visually expanded when one of its children is active
+  // When opening a nested page directly, expand its corresponding parent automatically
   useEffect(() => {
-    const path = location.pathname;
-    if (path.startsWith('/companies') || path.startsWith('/subscriptions') || path.startsWith('/usage')) {
-      setExpandedMenus((prev) => ({ ...prev, company: true }));
-    } else if (path.startsWith('/plans') || path.startsWith('/billing')) {
-      setExpandedMenus((prev) => ({ ...prev, billing: true }));
-    } else if (path.startsWith('/reports')) {
-      setExpandedMenus((prev) => ({ ...prev, reports: true }));
+    const parent = getParentForPath(location.pathname);
+    if (parent) {
+      setExpandedMenu(parent);
     }
   }, [location.pathname]);
 
   const toggleParent = (key) => {
     if (isCollapsed) {
       setIsCollapsed(false);
-      setExpandedMenus((prev) => ({ ...prev, [key]: true }));
+      setExpandedMenu(key);
       return;
     }
-    setExpandedMenus((prev) => ({ ...prev, [key]: !prev[key] }));
+    // Clicking an already expanded parent collapses it; clicking another expands it and closes others
+    setExpandedMenu((prev) => (prev === key ? null : key));
   };
 
   const handleReportSelect = (reportType) => {
@@ -79,11 +98,16 @@ export const Sidebar = ({
     location.pathname.startsWith('/subscriptions') ||
     location.pathname.startsWith('/usage');
 
+  const isJobsActive = location.pathname.startsWith('/jobs');
+
   const isBillingActive =
     location.pathname.startsWith('/plans') ||
     location.pathname.startsWith('/billing');
 
   const isReportsActive = location.pathname.startsWith('/reports');
+
+  const isSettingsActive = location.pathname.startsWith('/settings');
+
 
   return (
     <>
@@ -97,58 +121,62 @@ export const Sidebar = ({
           isMobileOpen ? 'mobile-open' : ''
         }`}
       >
-        {/* Sidebar Header with Logo */}
+        {/* Top Header with Brand Logo & Single Collapse/Expand Toggle Beside Logo */}
         <div className={`sidebar-header ${isCollapsed ? 'collapsed' : ''}`}>
-          <NavLink
-            to="/"
-            className={`sidebar-brand ${isCollapsed ? 'collapsed' : ''}`}
-            onClick={() => setIsMobileOpen(false)}
-            title="HR Portal"
-          >
-            {isCollapsed ? (
-              <div className="sidebar-favicon-container">
+          {isCollapsed ? (
+            <div className="sidebar-header-collapsed-wrap">
+              <NavLink
+                to="/"
+                className="sidebar-brand-collapsed"
+                onClick={() => setIsMobileOpen(false)}
+                title="HR Portal Super Admin"
+              >
                 <img
                   src="/assets/OG%20Favicon.png"
                   alt="HR Portal Favicon"
                   className="sidebar-logo-collapsed"
                 />
-              </div>
-            ) : (
-              <img
-                src="/assets/Blue%20HR%20Portal%20Logo%20on%20Transparency%20(1).png"
-                alt="HR Portal Logo"
-                className="sidebar-logo-expanded"
-              />
-            )}
-          </NavLink>
-
-          {!isCollapsed && (
-            <button
-              className="sidebar-collapse-btn"
-              onClick={() => setIsCollapsed(true)}
-              title="Collapse Sidebar"
-              aria-label="Collapse Sidebar"
-            >
-              <ChevronLeft size={18} />
-            </button>
+              </NavLink>
+              <button
+                type="button"
+                className="sidebar-expand-btn"
+                onClick={() => setIsCollapsed(false)}
+                title="Expand Sidebar"
+                aria-label="Expand Sidebar"
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
+          ) : (
+            <>
+              <NavLink
+                to="/"
+                className="sidebar-brand"
+                onClick={() => setIsMobileOpen(false)}
+                title="HR Portal Super Admin"
+              >
+                <div className="sidebar-brand-wrapper">
+                  <img
+                    src="/assets/Blue%20HR%20Portal%20Logo%20on%20Transparency%20(1).png"
+                    alt="HR Portal Logo"
+                    className="sidebar-logo-expanded"
+                  />
+                </div>
+              </NavLink>
+              <button
+                type="button"
+                className="sidebar-collapse-btn"
+                onClick={() => setIsCollapsed(true)}
+                title="Collapse Sidebar"
+                aria-label="Collapse Sidebar"
+              >
+                <ChevronLeft size={18} />
+              </button>
+            </>
           )}
         </div>
 
-        {/* Dedicated Expand Button Bar when collapsed */}
-        {isCollapsed && (
-          <div className="sidebar-expand-bar">
-            <button
-              className="sidebar-expand-btn"
-              onClick={() => setIsCollapsed(false)}
-              title="Expand Sidebar"
-              aria-label="Expand Sidebar"
-            >
-              <ChevronRight size={16} />
-            </button>
-          </div>
-        )}
-
-        {/* Main Navigation (Exact 8 Top-Level Modules) */}
+        {/* Sidebar Navigation (Independently Scrollable) */}
         <nav className="sidebar-nav">
           {/* 1. Dashboard */}
           <NavLink
@@ -163,7 +191,7 @@ export const Sidebar = ({
           </NavLink>
 
           {/* 2. Company (Expandable Parent) */}
-          <div className="nav-group-item">
+          <div className={`nav-group-item ${isCompanyActive ? 'group-active' : ''}`}>
             <button
               type="button"
               className={`nav-parent-btn ${isCompanyActive ? 'parent-active' : ''}`}
@@ -176,13 +204,13 @@ export const Sidebar = ({
                   <span>Company</span>
                   <ChevronDown
                     size={16}
-                    className={`menu-chevron ${expandedMenus.company ? 'rotated' : ''}`}
+                    className={`menu-chevron ${expandedMenu === 'company' ? 'rotated' : ''}`}
                   />
                 </>
               )}
             </button>
 
-            {!isCollapsed && expandedMenus.company && (
+            {!isCollapsed && expandedMenu === 'company' && (
               <div className="submenu-list">
                 <NavLink
                   to="/companies"
@@ -214,8 +242,62 @@ export const Sidebar = ({
             )}
           </div>
 
-          {/* 3. Billing (Expandable Parent) */}
-          <div className="nav-group-item">
+          {/* 3. Job Management (Expandable Parent) */}
+          <div className={`nav-group-item ${isJobsActive ? 'group-active' : ''}`}>
+            <button
+              type="button"
+              className={`nav-parent-btn ${isJobsActive ? 'parent-active' : ''}`}
+              onClick={() => toggleParent('jobs')}
+              title={isCollapsed ? 'Job Management' : undefined}
+            >
+              <BriefcaseBusiness className="nav-icon" />
+              {!isCollapsed && (
+                <>
+                  <span>Job Management</span>
+                  <ChevronDown
+                    size={16}
+                    className={`menu-chevron ${expandedMenu === 'jobs' ? 'rotated' : ''}`}
+                  />
+                </>
+              )}
+            </button>
+
+            {!isCollapsed && expandedMenu === 'jobs' && (
+              <div className="submenu-list">
+                <NavLink
+                  to="/jobs/posted"
+                  className={({ isActive }) => `sub-nav-link ${isActive ? 'active' : ''}`}
+                  onClick={() => setIsMobileOpen(false)}
+                >
+                  <Briefcase className="sub-nav-icon" />
+                  <span>Posted Jobs</span>
+                </NavLink>
+
+                <NavLink
+                  to="/jobs/reported"
+                  className={({ isActive }) => `sub-nav-link ${isActive ? 'active' : ''}`}
+                  onClick={() => setIsMobileOpen(false)}
+                >
+                  <AlertTriangle className="sub-nav-icon" />
+                  <span>Reported Jobs</span>
+                </NavLink>
+              </div>
+            )}
+          </div>
+
+          {/* 4. Candidate Management */}
+          <NavLink
+            to="/candidates"
+            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+            onClick={() => setIsMobileOpen(false)}
+            title={isCollapsed ? 'Candidate Management' : undefined}
+          >
+            <Users className="nav-icon" />
+            {!isCollapsed && <span>Candidate Management</span>}
+          </NavLink>
+
+          {/* 5. Billing (Expandable Parent) */}
+          <div className={`nav-group-item ${isBillingActive ? 'group-active' : ''}`}>
             <button
               type="button"
               className={`nav-parent-btn ${isBillingActive ? 'parent-active' : ''}`}
@@ -228,13 +310,13 @@ export const Sidebar = ({
                   <span>Billing</span>
                   <ChevronDown
                     size={16}
-                    className={`menu-chevron ${expandedMenus.billing ? 'rotated' : ''}`}
+                    className={`menu-chevron ${expandedMenu === 'billing' ? 'rotated' : ''}`}
                   />
                 </>
               )}
             </button>
 
-            {!isCollapsed && expandedMenus.billing && (
+            {!isCollapsed && expandedMenu === 'billing' && (
               <div className="submenu-list">
                 <NavLink
                   to="/plans"
@@ -257,8 +339,8 @@ export const Sidebar = ({
             )}
           </div>
 
-          {/* 4. Platform Reports (Expandable Parent - all 6 submodules on /reports) */}
-          <div className="nav-group-item">
+          {/* 6. Platform Reports (Expandable Parent) */}
+          <div className={`nav-group-item ${isReportsActive ? 'group-active' : ''}`}>
             <button
               type="button"
               className={`nav-parent-btn ${isReportsActive ? 'parent-active' : ''}`}
@@ -271,13 +353,13 @@ export const Sidebar = ({
                   <span>Platform Reports</span>
                   <ChevronDown
                     size={16}
-                    className={`menu-chevron ${expandedMenus.reports ? 'rotated' : ''}`}
+                    className={`menu-chevron ${expandedMenu === 'reports' ? 'rotated' : ''}`}
                   />
                 </>
               )}
             </button>
 
-            {!isCollapsed && expandedMenus.reports && (
+            {!isCollapsed && expandedMenu === 'reports' && (
               <div className="submenu-list">
                 {[
                   { label: 'Company Reports', icon: FileSpreadsheet },
@@ -308,7 +390,7 @@ export const Sidebar = ({
             )}
           </div>
 
-          {/* 5. Support */}
+          {/* 7. Support */}
           <NavLink
             to="/support"
             className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
@@ -319,7 +401,7 @@ export const Sidebar = ({
             {!isCollapsed && <span>Support</span>}
           </NavLink>
 
-          {/* 6. Roles & Permissions */}
+          {/* 8. Roles & Permissions */}
           <NavLink
             to="/access"
             className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
@@ -330,18 +412,57 @@ export const Sidebar = ({
             {!isCollapsed && <span>Roles & Permissions</span>}
           </NavLink>
 
-          {/* 7. Platform Settings */}
-          <NavLink
-            to="/settings"
-            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-            onClick={() => setIsMobileOpen(false)}
-            title={isCollapsed ? 'Platform Settings' : undefined}
-          >
-            <Settings className="nav-icon" />
-            {!isCollapsed && <span>Platform Settings</span>}
-          </NavLink>
+          {/* 9. Platform Settings (Expandable Parent) */}
+          <div className={`nav-group-item ${isSettingsActive ? 'group-active' : ''}`}>
+            <button
+              type="button"
+              className={`nav-parent-btn ${isSettingsActive ? 'parent-active' : ''}`}
+              onClick={() => toggleParent('settings')}
+              title={isCollapsed ? 'Platform Settings' : undefined}
+            >
+              <Settings className="nav-icon" />
+              {!isCollapsed && (
+                <>
+                  <span>Platform Settings</span>
+                  <ChevronDown
+                    size={16}
+                    className={`menu-chevron ${expandedMenu === 'settings' ? 'rotated' : ''}`}
+                  />
+                </>
+              )}
+            </button>
 
-          {/* 8. Audit & Security */}
+            {!isCollapsed && expandedMenu === 'settings' && (
+              <div className="submenu-list">
+                <NavLink
+                  to="/settings"
+                  end
+                  className={({ isActive }) => {
+                    const isDefaults = location.search.includes('tab=defaults');
+                    return `sub-nav-link ${isActive && !isDefaults ? 'active' : ''}`;
+                  }}
+                  onClick={() => setIsMobileOpen(false)}
+                >
+                  <Bell className="sub-nav-icon" />
+                  <span>Notification Settings</span>
+                </NavLink>
+
+                <NavLink
+                  to="/settings?tab=defaults"
+                  className={({ isActive }) => {
+                    const isDefaults = location.search.includes('tab=defaults');
+                    return `sub-nav-link ${isActive && isDefaults ? 'active' : ''}`;
+                  }}
+                  onClick={() => setIsMobileOpen(false)}
+                >
+                  <Sliders className="sub-nav-icon" />
+                  <span>System Defaults</span>
+                </NavLink>
+              </div>
+            )}
+          </div>
+
+          {/* 10. Audit & Security */}
           <NavLink
             to="/security"
             className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}

@@ -268,7 +268,6 @@ export const Support = () => {
     <div className="support-container">
       <PageHeader
         title="Support"
-        description="Enterprise tenant ticket queue, incident escalation, SLA compliance, and helpdesk resolutions."
         actions={
           <Button variant="secondary" icon={Download} onClick={handleExportCSV}>
             Export CSV
@@ -285,7 +284,7 @@ export const Support = () => {
               setSearchTerm(val);
               setCurrentPage(1);
             }}
-            placeholder="Search by ticket ID, company ID, or company name..."
+            placeholder="Search"
           />
 
           <select

@@ -7,15 +7,15 @@ export const StatusBadge = ({ status }) => {
   
   let statusClass = 'status-active';
 
-  if (['active', 'verified', 'valid', 'successful', 'resolved'].includes(normalized)) {
+  if (['active', 'verified', 'valid', 'successful', 'resolved', 'placed'].includes(normalized)) {
     statusClass = 'status-active';
-  } else if (['pending', 'trial', 'grace-period', 'waiting', 'pending-payment'].includes(normalized)) {
+  } else if (['pending', 'trial', 'grace-period', 'waiting', 'pending-payment', 'pending-review', 'open'].includes(normalized)) {
     statusClass = 'status-pending';
   } else if (['suspended', 'blocked', 'failed', 'invalid', 'verification-failed', 'expired', 'cancelled'].includes(normalized)) {
     statusClass = 'status-suspended';
-  } else if (['in-progress', 'past-due', 'draft'].includes(normalized)) {
+  } else if (['in-progress', 'past-due', 'draft', 'under-review', 'paused'].includes(normalized)) {
     statusClass = 'status-in-progress';
-  } else if (['closed', 'archived', 'inactive', 'not-found'].includes(normalized)) {
+  } else if (['closed', 'archived', 'inactive', 'not-found', 'dismissed'].includes(normalized)) {
     statusClass = 'status-closed';
   } else if (['refunded'].includes(normalized)) {
     statusClass = 'status-refunded';

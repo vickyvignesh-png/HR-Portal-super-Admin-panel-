@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 
 export const Modal = ({
@@ -34,8 +35,13 @@ export const Modal = ({
     xl: 'modal-xl'
   }[size] || '';
 
-  return (
-    <div className="modal-overlay" onClick={onClose} role="dialog" aria-modal="true">
+  const modalElement = (
+    <div
+      className="modal-overlay"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+    >
       <div
         className={`modal-card ${sizeClass}`.trim()}
         onClick={(e) => e.stopPropagation()}
@@ -43,9 +49,11 @@ export const Modal = ({
         <div className="modal-header">
           <h3 className="modal-title">{title}</h3>
           <button
+            type="button"
             className="modal-close-btn"
             onClick={onClose}
             aria-label="Close modal"
+            title="Close"
           >
             <X size={18} />
           </button>
@@ -55,4 +63,6 @@ export const Modal = ({
       </div>
     </div>
   );
+
+  return createPortal(modalElement, document.body);
 };

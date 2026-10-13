@@ -20,7 +20,9 @@ export const SuperAdminLayout = () => {
           isCollapsed ? 'sidebar-collapsed' : ''
         }`}
       >
-        <Topbar onToggleMobile={() => setIsMobileOpen(true)} />
+        <Topbar
+          onToggleMobile={() => setIsMobileOpen(true)}
+        />
         <main className="app-main">
           <Outlet />
         </main>
@@ -28,3 +30,5 @@ export const SuperAdminLayout = () => {
     </div>
   );
 };
+
+export default SuperAdminLayout;

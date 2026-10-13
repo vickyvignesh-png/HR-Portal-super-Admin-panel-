@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   BarChart3,
   Download,
@@ -26,27 +26,22 @@ import { useToast } from '../../context/ToastContext';
 import { formatCurrency, formatDate, formatNumber, exportToCSV } from '../../utils/formatters';
 import './PlatformReports.css';
 
-const REPORT_TYPES = [
-  'Company Reports',
-  'Subscription Reports',
-  'Revenue Reports',
-  'Usage Reports',
-  'Candidate Reports',
-  'Platform Trend'
-];
-
 export const PlatformReports = () => {
-  const { dataVersion, activeReportType, setActiveReportType } = useApp();
+  const { dataVersion, activeReportType } = useApp();
   const { addToast } = useToast();
 
   const selectedReportType = activeReportType || 'Company Reports';
-  const setSelectedReportType = (type) => {
-    if (setActiveReportType) setActiveReportType(type);
-  };
   const [searchTerm, setSearchTerm] = useState('');
   const [dateFilter, setDateFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 8;
+
+  // Reset page and filters when selected report type changes from sidebar
+  useEffect(() => {
+    setCurrentPage(1);
+    setSearchTerm('');
+    setDateFilter('');
+  }, [selectedReportType]);
 
   // In-page View Modal (ZERO URL changes)
   const [viewingRecord, setViewingRecord] = useState(null);
@@ -265,19 +260,6 @@ export const PlatformReports = () => {
     <div className="reports-container">
       <PageHeader
         title={`Platform Reports — ${selectedReportType}`}
-        description={
-          selectedReportType === 'Company Reports'
-            ? 'Corporate tenant directories, legal business registrations, and GST compliance verification.'
-            : selectedReportType === 'Subscription Reports'
-            ? 'Active corporate licensing packages, renewal schedules, and tier commitments.'
-            : selectedReportType === 'Revenue Reports'
-            ? 'Financial cash inflow telemetry, invoice taxation, and disputed refund reconciliations.'
-            : selectedReportType === 'Usage Reports'
-            ? 'Quota utilization metrics, active recruitment allocations, and platform candidate access limits.'
-            : selectedReportType === 'Candidate Reports'
-            ? 'Aggregate candidate talent registrations, job seeker activity, and registration volume trends.'
-            : 'High-level chronological platform expansion benchmarks and operational growth trajectories.'
-        }
         actions={
           <Button variant="secondary" icon={Download} onClick={handleExportCSV}>
             Export Current Report
@@ -285,28 +267,7 @@ export const PlatformReports = () => {
         }
       />
 
-      {/* Report Selector Bar Above the Table */}
-      <div className="report-selector-bar">
-        <div className="report-selector-left">
-          <label className="text-sm font-bold text-primary">Report Type:</label>
-          <select
-            className="report-select-dropdown"
-            value={selectedReportType}
-            onChange={(e) => {
-              setSelectedReportType(e.target.value);
-              setCurrentPage(1);
-            }}
-          >
-            {REPORT_TYPES.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      {/* Separate Toolbar above table with clear gap */}
+      {/* Toolbar above table */}
       <div className="table-toolbar">
         <div className="table-toolbar-left">
           <SearchBar
@@ -315,7 +276,7 @@ export const PlatformReports = () => {
               setSearchTerm(val);
               setCurrentPage(1);
             }}
-            placeholder={`Search within ${selectedReportType}...`}
+            placeholder="Search"
           />
 
           <input

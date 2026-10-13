@@ -298,7 +298,6 @@ export const AuditSecurity = () => {
     <div className="audit-security-container">
       <PageHeader
         title="Audit & Security"
-        description="Tamper-evident operational audit trail, administrative value modifications, and authentication event telemetry."
         actions={
           <Button variant="secondary" icon={Download} onClick={handleExportCSV}>
             Export CSV
@@ -327,7 +326,7 @@ export const AuditSecurity = () => {
               setSearchTerm(val);
               setCurrentPage(1);
             }}
-            placeholder={activeTab === 'audit' ? 'Search audit logs...' : 'Search security events...'}
+            placeholder="Search"
           />
 
           {activeTab === 'audit' && (

@@ -87,7 +87,6 @@ export const PlanForm = () => {
     <div className="dashboard-container">
       <PageHeader
         title={isEdit ? `Edit Plan: ${formData.name}` : 'Create Subscription Plan'}
-        description="Define operational quotas, monthly rates, and feature permissions for this subscription tier."
         actions={
           <Button variant="secondary" icon={ArrowLeft} onClick={() => navigate('/plans')}>
             Back to Plans

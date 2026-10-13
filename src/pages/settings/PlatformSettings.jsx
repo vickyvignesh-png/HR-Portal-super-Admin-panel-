@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   Settings,
   Save,
@@ -25,9 +26,20 @@ import './PlatformSettings.css';
 export const PlatformSettings = () => {
   const { dataVersion, triggerRefresh } = useApp();
   const { addToast } = useToast();
+  const location = useLocation();
 
   // Exactly two settings sections: 'notifications' | 'defaults'
-  const [activeTab, setActiveTab] = useState('notifications');
+  const [activeTab, setActiveTab] = useState(() => {
+    return location.search.includes('tab=defaults') ? 'defaults' : 'notifications';
+  });
+
+  useEffect(() => {
+    if (location.search.includes('tab=defaults')) {
+      setActiveTab('defaults');
+    } else {
+      setActiveTab('notifications');
+    }
+  }, [location.search]);
 
   const settings = useMemo(() => {
     const raw = storageService.getSettings();
@@ -111,7 +123,6 @@ export const PlatformSettings = () => {
     <div className="settings-container">
       <PageHeader
         title="Platform Settings"
-        description="Configure platform dispatch notifications, automated communication rules, and baseline system parameters."
         actions={
           <div className="flex gap-2">
             <Button variant="secondary" icon={RotateCcw} onClick={handleResetDefaults}>
@@ -131,7 +142,14 @@ export const PlatformSettings = () => {
           { id: 'defaults', label: 'System Defaults', icon: Sliders }
         ]}
         activeTab={activeTab}
-        onChange={setActiveTab}
+        onChange={(tab) => {
+          setActiveTab(tab);
+          if (tab === 'defaults') {
+            navigate('/settings?tab=defaults', { replace: true });
+          } else {
+            navigate('/settings', { replace: true });
+          }
+        }}
       />
 
       {/* 1. NOTIFICATION SETTINGS SECTION */}

@@ -1,0 +1,114 @@
+/* Candidate Management Module Styles */
+.candidate-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.candidate-action-icons {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.candidate-profile-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  background-color: #F8FAFC;
+  color: #334155;
+  border: 1px solid #E2E8F0;
+}
+
+.candidate-skills-pill-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.skill-mini-pill {
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  background-color: #EFF6FF;
+  color: #1E40AF;
+  border: 1px solid #BFDBFE;
+  border-radius: var(--radius-full);
+}
+
+.candidate-modal-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.candidate-detail-card {
+  background-color: #F8FAFC;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
+}
+
+.candidate-detail-card-title {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.candidate-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3) var(--space-4);
+}
+
+.candidate-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.candidate-detail-item-full {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.candidate-detail-label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+}
+
+.candidate-detail-value {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  word-break: break-word;
+}
+
+.candidate-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+.candidate-form-full {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 768px) {
+  .candidate-detail-grid,
+  .candidate-form-grid {
+    grid-template-columns: 1fr;
+  }
+}

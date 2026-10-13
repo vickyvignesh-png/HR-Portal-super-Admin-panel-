@@ -5,10 +5,13 @@ import { AppProvider, useApp } from './context/AppContext';
 import { SuperAdminLayout } from './components/layout/SuperAdminLayout';
 
 // Pages
-import { Login } from './pages/Login';
-import { Dashboard } from './pages/Dashboard';
+import { Login } from './pages/login/Login';
+import { Dashboard } from './pages/dashboard/Dashboard';
 import { CompanyDetails } from './pages/companies/CompanyDetails';
 import { CompanySubscription } from './pages/subscriptions/CompanySubscription';
+import { PostedJobs } from './pages/jobs/PostedJobs';
+import { ReportedJobs } from './pages/jobs/ReportedJobs';
+import { CandidateManagement } from './pages/candidates/CandidateManagement';
 import { SubscriptionPlans } from './pages/plans/SubscriptionPlans';
 import { PaymentsInvoices } from './pages/billing/PaymentsInvoices';
 import { CompanyUsage } from './pages/usage/CompanyUsage';
@@ -55,6 +58,14 @@ export const App = () => {
               {/* Module 3: Company Subscription */}
               <Route path="subscriptions" element={<CompanySubscription />} />
               <Route path="subscriptions/:id" element={<CompanySubscription />} />
+
+              {/* Job Management */}
+              <Route path="jobs/posted" element={<PostedJobs />} />
+              <Route path="jobs/reported" element={<ReportedJobs />} />
+              <Route path="jobs" element={<Navigate to="/jobs/posted" replace />} />
+
+              {/* Candidate Management */}
+              <Route path="candidates" element={<CandidateManagement />} />
 
               {/* Module 4: Subscription Plans */}
               <Route path="plans" element={<SubscriptionPlans />} />

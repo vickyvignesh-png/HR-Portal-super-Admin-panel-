@@ -443,7 +443,6 @@ export const CompanyDetails = () => {
     <div className="company-details-container">
       <PageHeader
         title="Company Details"
-        description="Oversee enterprise tenants, review corporate compliance, and regulate account records."
         actions={
           <div className="flex gap-2">
             <Button variant="secondary" icon={Download} onClick={handleExportCSV}>
@@ -469,7 +468,7 @@ export const CompanyDetails = () => {
               setSearchTerm(val);
               setCurrentPage(1);
             }}
-            placeholder="Search by Company ID, company name, phone, email, or GSTIN..."
+            placeholder="Search"
           />
 
           <select

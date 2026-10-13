@@ -861,3 +861,634 @@ export const mockDashboardTrends = {
     hires: 4120
   }
 };
+
+export const initialMockPostedJobs = [
+  {
+    id: 'JOB-2001',
+    title: 'Senior Full Stack Engineer',
+    companyName: 'Apex Global Technologies',
+    companyId: 'CMP-1001',
+    jobType: 'Full-time',
+    location: 'Bengaluru, Karnataka',
+    postedDate: '2025-01-10',
+    expiryDate: '2025-03-31',
+    jobStatus: 'Active',
+    isDeactivated: false,
+    deactivationReason: null,
+    department: 'Engineering',
+    experience: '4 - 7 Years',
+    salary: '₹22,00,000 - ₹32,00,000 P.A.',
+    openings: 3,
+    applicantsCount: 56,
+    description: 'Seeking an experienced Senior Full Stack Engineer proficient with React, Node.js, and cloud deployments to build enterprise-grade software products.',
+    requirements: 'Hands-on experience with TypeScript, React 18, microservices architecture, AWS infrastructure, and relational SQL databases.',
+    lastUpdated: '2025-02-10',
+    actionHistory: [
+      { id: 'ACT-J101', action: 'Job Published', reason: 'Direct posting by company tenant', takenBy: 'David Vance (Apex HR)', date: '2025-01-10 09:30' }
+    ]
+  },
+  {
+    id: 'JOB-2002',
+    title: 'DevOps Cloud Architect',
+    companyName: 'CloudScale Networks',
+    companyId: 'CMP-1004',
+    jobType: 'Full-time',
+    location: 'Remote (India)',
+    postedDate: '2025-01-15',
+    expiryDate: '2025-04-15',
+    jobStatus: 'Active',
+    isDeactivated: false,
+    deactivationReason: null,
+    department: 'Infrastructure',
+    experience: '6 - 10 Years',
+    salary: '₹28,00,000 - ₹40,00,000 P.A.',
+    openings: 2,
+    applicantsCount: 38,
+    description: 'Architect and automate cloud infrastructure across multi-region AWS environments using Infrastructure-as-Code and Kubernetes orchestration.',
+    requirements: 'Deep expertise in Terraform, Kubernetes, AWS EKS, CI/CD pipeline automation, and Docker container security.',
+    lastUpdated: '2025-02-08',
+    actionHistory: [
+      { id: 'ACT-J102', action: 'Job Published', reason: 'Direct posting by company tenant', takenBy: 'CloudScale Hiring Team', date: '2025-01-15 11:20' }
+    ]
+  },
+  {
+    id: 'JOB-2003',
+    title: 'Senior Risk & Fraud Analyst',
+    companyName: 'Vertex Financial Services',
+    companyId: 'CMP-1003',
+    jobType: 'Full-time',
+    location: 'Hyderabad, Telangana',
+    postedDate: '2025-01-08',
+    expiryDate: '2025-02-28',
+    jobStatus: 'Closed',
+    isDeactivated: false,
+    deactivationReason: null,
+    department: 'Risk & Compliance',
+    experience: '5 - 8 Years',
+    salary: '₹18,00,000 - ₹26,00,000 P.A.',
+    openings: 1,
+    applicantsCount: 42,
+    description: 'Analyze financial fraud trends, monitor anomalous transaction telemetry, and implement institutional risk prevention algorithms.',
+    requirements: 'Proficiency in SQL, Python data analysis, statistical risk modeling, and anti-money laundering (AML) regulatory frameworks.',
+    lastUpdated: '2025-02-05',
+    actionHistory: [
+      { id: 'ACT-J103', action: 'Job Published', reason: 'Direct posting by company tenant', takenBy: 'Vertex Talent Ops', date: '2025-01-08 10:00' },
+      { id: 'ACT-J104', action: 'Job Closed', reason: 'Position filled by candidate hire', takenBy: 'Vertex Talent Ops', date: '2025-02-05 16:45' }
+    ]
+  },
+  {
+    id: 'JOB-2004',
+    title: 'Healthcare Systems Specialist',
+    companyName: 'Nexus Healthcare Systems',
+    companyId: 'CMP-1002',
+    jobType: 'Full-time',
+    location: 'Mumbai, Maharashtra',
+    postedDate: '2025-01-18',
+    expiryDate: '2025-03-25',
+    jobStatus: 'Active',
+    isDeactivated: false,
+    deactivationReason: null,
+    department: 'Healthcare IT',
+    experience: '3 - 5 Years',
+    salary: '₹14,00,000 - ₹20,00,000 P.A.',
+    openings: 4,
+    applicantsCount: 84,
+    description: 'Integrate clinical EHR/EMR platforms, maintain hospital interface workflows, and uphold strict patient data privacy compliance.',
+    requirements: 'Familiarity with HL7 and FHIR messaging protocols, medical telemetry data pipelines, and SQL database management.',
+    lastUpdated: '2025-02-11',
+    actionHistory: [
+      { id: 'ACT-J105', action: 'Job Published', reason: 'Direct posting by company tenant', takenBy: 'Sarah Jenkins (Nexus TA)', date: '2025-01-18 14:15' }
+    ]
+  },
+  {
+    id: 'JOB-2005',
+    title: 'Lead UI/UX Designer',
+    companyName: 'Pulse Media Labs',
+    companyId: 'CMP-1006',
+    jobType: 'Contract',
+    location: 'Remote (India)',
+    postedDate: '2025-01-22',
+    expiryDate: '2025-04-20',
+    jobStatus: 'Active',
+    isDeactivated: false,
+    deactivationReason: null,
+    department: 'Product Design',
+    experience: '5 - 9 Years',
+    salary: '₹20,00,000 - ₹30,00,000 P.A.',
+    openings: 1,
+    applicantsCount: 67,
+    description: 'Drive end-to-end design strategy for high-traffic media and publishing platforms with user-centric digital experiences.',
+    requirements: 'Mastery of Figma, multi-brand design systems, interactive prototyping, and usability benchmarking.',
+    lastUpdated: '2025-02-09',
+    actionHistory: [
+      { id: 'ACT-J106', action: 'Job Published', reason: 'Direct posting by company tenant', takenBy: 'Pulse Media HR', date: '2025-01-22 15:40' }
+    ]
+  },
+  {
+    id: 'JOB-2006',
+    title: 'E-Commerce Supply Chain Lead',
+    companyName: 'Zenith Retail Solutions',
+    companyId: 'CMP-1005',
+    jobType: 'Full-time',
+    location: 'Delhi NCR',
+    postedDate: '2024-12-05',
+    expiryDate: '2025-01-31',
+    jobStatus: 'Expired',
+    isDeactivated: false,
+    deactivationReason: null,
+    department: 'Logistics',
+    experience: '4 - 7 Years',
+    salary: '₹16,00,000 - ₹24,00,000 P.A.',
+    openings: 2,
+    applicantsCount: 91,
+    description: 'Manage inventory forecasting, fulfillment partner integration, and distribution telemetry for omnichannel retail operations.',
+    requirements: 'Enterprise ERP systems, supply chain metrics analysis, and warehouse management protocols.',
+    lastUpdated: '2025-02-01',
+    actionHistory: [
+      { id: 'ACT-J107', action: 'Job Published', reason: 'Direct posting by company tenant', takenBy: 'Zenith Logistics HR', date: '2024-12-05 10:00' },
+      { id: 'ACT-J108', action: 'Job Expired', reason: 'Closing date reached without extension', takenBy: 'System Auto-Expire', date: '2025-02-01 00:00' }
+    ]
+  },
+  {
+    id: 'JOB-2007',
+    title: 'HR Operations Specialist',
+    companyName: 'Apex Global Technologies',
+    companyId: 'CMP-1001',
+    jobType: 'Full-time',
+    location: 'Bengaluru, Karnataka',
+    postedDate: '2025-01-12',
+    expiryDate: '2025-03-15',
+    jobStatus: 'Active',
+    isDeactivated: false,
+    deactivationReason: null,
+    department: 'Human Resources',
+    experience: '2 - 5 Years',
+    salary: '₹8,00,000 - ₹12,00,000 P.A.',
+    openings: 2,
+    applicantsCount: 110,
+    description: 'Oversee employee lifecycle operations, onboarding compliance, statutory filings, and employee benefits administration.',
+    requirements: 'Modern HRIS software, payroll computation, Indian statutory compliance, and talent lifecycle operations.',
+    lastUpdated: '2025-02-12',
+    actionHistory: [
+      { id: 'ACT-J109', action: 'Job Published', reason: 'Direct posting by company tenant', takenBy: 'David Vance (Apex HR)', date: '2025-01-12 11:00' }
+    ]
+  },
+  {
+    id: 'JOB-2008',
+    title: 'Frontend React Developer (Intern)',
+    companyName: 'Pulse Media Labs',
+    companyId: 'CMP-1006',
+    jobType: 'Internship',
+    location: 'Remote',
+    postedDate: '2025-02-01',
+    expiryDate: '2025-05-01',
+    jobStatus: 'Active',
+    isDeactivated: true,
+    deactivationReason: 'Reported unauthorized registration fee solicitation under active review',
+    department: 'Engineering',
+    experience: '0 - 1 Years',
+    salary: '₹3,60,000 - ₹4,80,000 P.A.',
+    openings: 5,
+    applicantsCount: 180,
+    description: 'Support frontend development of interactive components and responsive portals using modern React web ecosystem.',
+    requirements: 'Strong foundational JavaScript, HTML5/CSS3, familiarity with React component architecture.',
+    lastUpdated: '2025-02-11',
+    actionHistory: [
+      { id: 'ACT-J110', action: 'Job Published', reason: 'Direct posting by company tenant', takenBy: 'Pulse Media Labs', date: '2025-02-01 09:00' },
+      { id: 'ACT-J111', action: 'Job Deactivated', reason: 'Reported unauthorized registration fee solicitation under active review', takenBy: 'Marcus Vance (Super Admin)', date: '2025-02-07 14:00' }
+    ]
+  },
+  {
+    id: 'JOB-2009',
+    title: 'Data Engineering Team Lead',
+    companyName: 'Vertex Financial Services',
+    companyId: 'CMP-1003',
+    jobType: 'Full-time',
+    location: 'Hyderabad, Telangana',
+    postedDate: '2024-11-20',
+    expiryDate: '2025-01-20',
+    jobStatus: 'Closed',
+    isDeactivated: false,
+    deactivationReason: null,
+    department: 'Data & Analytics',
+    experience: '7 - 11 Years',
+    salary: '₹30,00,000 - ₹45,00,000 P.A.',
+    openings: 1,
+    applicantsCount: 47,
+    description: 'Led data pipeline modernization, streaming financial ingestion, and lakehouse storage governance.',
+    requirements: 'Apache Spark, Kafka, Snowflake/Databricks, Python, and SQL performance tuning.',
+    lastUpdated: '2025-01-22',
+    actionHistory: [
+      { id: 'ACT-J112', action: 'Job Published', reason: 'Direct posting by company tenant', takenBy: 'Vertex Talent Ops', date: '2024-11-20 12:00' },
+      { id: 'ACT-J113', action: 'Job Closed', reason: 'Project headcount fulfilled', takenBy: 'Marcus Vance (Super Admin)', date: '2025-01-20 17:00' }
+    ]
+  },
+  {
+    id: 'JOB-2010',
+    title: 'Cybersecurity Incident Responder',
+    companyName: 'CloudScale Networks',
+    companyId: 'CMP-1004',
+    jobType: 'Part-time',
+    location: 'Remote (India)',
+    postedDate: '2025-01-28',
+    expiryDate: '2025-04-30',
+    jobStatus: 'Active',
+    isDeactivated: false,
+    deactivationReason: null,
+    department: 'Security',
+    experience: '3 - 6 Years',
+    salary: '₹12,00,000 - ₹18,00,000 P.A.',
+    openings: 2,
+    applicantsCount: 29,
+    description: 'Monitor SIEM event streams, coordinate vulnerability remediation, and investigate security incidents.',
+    requirements: 'SOC operations, Splunk/Wazuh experience, network log forensics, and threat intelligence analysis.',
+    lastUpdated: '2025-02-07',
+    actionHistory: [
+      { id: 'ACT-J114', action: 'Job Published', reason: 'Direct posting by company tenant', takenBy: 'CloudScale Security', date: '2025-01-28 16:30' }
+    ]
+  }
+];
+
+export const initialMockReportedJobs = [
+  {
+    id: 'REP-5001',
+    jobId: 'JOB-2003',
+    jobTitle: 'Senior Risk & Fraud Analyst',
+    companyName: 'Vertex Financial Services',
+    reportedBy: 'Aarav Sharma',
+    reportReason: 'Misleading Information',
+    reportedDate: '2025-02-04',
+    reportStatus: 'Under Review',
+    actionTaken: 'No Action',
+    adminRemarks: 'Contacted tenant HR administrator requesting updated work-mode disclosures.',
+    resolvedDate: null,
+    description: 'Job listing advertises flexible hybrid hours, but applicant was notified during screening that 6-day on-site presence is compulsory.',
+    actionHistory: [
+      { id: 'ACT-R1', action: 'Report Submitted', reason: 'Candidate grievance regarding work-mode mismatch', takenBy: 'Aarav Sharma', date: '2025-02-04 11:20' },
+      { id: 'ACT-R2', action: 'Under Review', reason: 'Escalated to tenant HR for clarification', takenBy: 'Marcus Vance (Super Admin)', date: '2025-02-05 14:10' }
+    ]
+  },
+  {
+    id: 'REP-5002',
+    jobId: 'JOB-2008',
+    jobTitle: 'Frontend React Developer (Intern)',
+    companyName: 'Pulse Media Labs',
+    reportedBy: 'Pooja Patel',
+    reportReason: 'Scam / Fraud',
+    reportedDate: '2025-02-07',
+    reportStatus: 'Resolved',
+    actionTaken: 'Job Deactivated',
+    adminRemarks: 'Flagged listing for credential verification. Listing deactivated pending investigation into unauthorized agency activity.',
+    resolvedDate: '2025-02-08',
+    description: 'Candidate reported receiving WhatsApp message demanding ₹1,500 registration charge prior to scheduling interview round.',
+    actionHistory: [
+      { id: 'ACT-R3', action: 'Report Submitted', reason: 'Demanded advance fees', takenBy: 'Pooja Patel', date: '2025-02-07 10:15' },
+      { id: 'ACT-R4', action: 'Job Deactivated & Resolved', reason: 'Verified fraudulent fee solicitation pattern', takenBy: 'Marcus Vance (Super Admin)', date: '2025-02-08 15:30' }
+    ]
+  },
+  {
+    id: 'REP-5003',
+    jobId: 'JOB-2006',
+    jobTitle: 'E-Commerce Supply Chain Lead',
+    companyName: 'Zenith Retail Solutions',
+    reportedBy: 'Rohan Verma',
+    reportReason: 'Expired / Inactive Job',
+    reportedDate: '2025-02-02',
+    reportStatus: 'Resolved',
+    actionTaken: 'No Action',
+    adminRemarks: 'Verified position status with company tenant. Successfully updated job status to Expired on system.',
+    resolvedDate: '2025-02-03',
+    description: 'Candidate received automated notification stating role was filled, but vacancy is still accepting applications.',
+    actionHistory: [
+      { id: 'ACT-R5', action: 'Report Submitted', reason: 'Role already filled', takenBy: 'Rohan Verma', date: '2025-02-02 09:40' },
+      { id: 'ACT-R6', action: 'Resolved', reason: 'System status synced with company tenant', takenBy: 'Marcus Vance (Super Admin)', date: '2025-02-03 12:00' }
+    ]
+  },
+  {
+    id: 'REP-5004',
+    jobId: 'JOB-2010',
+    jobTitle: 'Cybersecurity Incident Responder',
+    companyName: 'CloudScale Networks',
+    reportedBy: 'Ananya Iyer',
+    reportReason: 'Spam / Duplicate',
+    reportedDate: '2025-02-09',
+    reportStatus: 'Dismissed',
+    actionTaken: 'No Action',
+    adminRemarks: 'Audited both requisitions. Confirmed this is a legitimate distinct part-time contract role.',
+    resolvedDate: null,
+    description: 'User reported listing as duplicate of an existing full-time network role.',
+    actionHistory: [
+      { id: 'ACT-R7', action: 'Report Submitted', reason: 'Suspected duplicate entry', takenBy: 'Ananya Iyer', date: '2025-02-09 13:25' },
+      { id: 'ACT-R8', action: 'Report Dismissed', reason: 'Distinct requisition with separate headcount budget', takenBy: 'Marcus Vance (Super Admin)', date: '2025-02-10 11:00' }
+    ]
+  },
+  {
+    id: 'REP-5005',
+    jobId: 'JOB-2001',
+    jobTitle: 'Senior Full Stack Engineer',
+    companyName: 'Apex Global Technologies',
+    reportedBy: 'Kavita Rao',
+    reportReason: 'Discriminatory Content',
+    reportedDate: '2025-02-08',
+    reportStatus: 'Open',
+    actionTaken: 'Warning',
+    adminRemarks: 'Candidate flagged recruiter questionnaire requesting age bracket disclosure violating platform hiring guidelines.',
+    resolvedDate: null,
+    description: 'Candidate flagged recruiter questionnaire requesting age bracket disclosure violating platform hiring guidelines.',
+    actionHistory: [
+      { id: 'ACT-R9', action: 'Report Submitted', reason: 'Discriminatory questionnaire item', takenBy: 'Kavita Rao', date: '2025-02-08 16:50' },
+      { id: 'ACT-R10', action: 'Warning Logged', reason: 'Policy reminder issued to company recruiter', takenBy: 'Marcus Vance (Super Admin)', date: '2025-02-09 10:20' }
+    ]
+  },
+  {
+    id: 'REP-5006',
+    jobId: 'JOB-2005',
+    jobTitle: 'Lead UI/UX Designer',
+    companyName: 'Pulse Media Labs',
+    reportedBy: 'Vikram Malhotra',
+    reportReason: 'Misleading Information',
+    reportedDate: '2025-01-29',
+    reportStatus: 'Resolved',
+    actionTaken: 'Warning',
+    adminRemarks: 'Tenant updated description to explicitly specify initial 6-month term with renewal option.',
+    resolvedDate: '2025-01-30',
+    description: 'Contract tenure was advertised as 12 months on portal but stated as 3-month trial in initial contract draft.',
+    actionHistory: [
+      { id: 'ACT-R11', action: 'Report Submitted', reason: 'Contract length contradiction', takenBy: 'Vikram Malhotra', date: '2025-01-29 14:00' },
+      { id: 'ACT-R12', action: 'Resolved with Warning', reason: 'Employer corrected contract disclosure', takenBy: 'Marcus Vance (Super Admin)', date: '2025-01-30 17:30' }
+    ]
+  },
+  {
+    id: 'REP-5007',
+    jobId: 'JOB-2004',
+    jobTitle: 'Healthcare Systems Specialist',
+    companyName: 'Nexus Healthcare Systems',
+    reportedBy: 'Meera Sen',
+    reportReason: 'Expired / Inactive Job',
+    reportedDate: '2025-02-10',
+    reportStatus: 'Open',
+    actionTaken: 'No Action',
+    adminRemarks: 'Diagnostics run on application redirect webhook. Ticket dispatched to tenant technical lead.',
+    resolvedDate: null,
+    description: 'Applicant reported application submission gateway returns broken endpoint error.',
+    actionHistory: [
+      { id: 'ACT-R13', action: 'Report Submitted', reason: 'Application gateway error', takenBy: 'Meera Sen', date: '2025-02-10 15:10' }
+    ]
+  },
+  {
+    id: 'REP-5008',
+    jobId: 'JOB-2002',
+    jobTitle: 'DevOps Cloud Architect',
+    companyName: 'CloudScale Networks',
+    reportedBy: 'Deepak Joshi',
+    reportReason: 'Spam / Duplicate',
+    reportedDate: '2025-02-01',
+    reportStatus: 'Dismissed',
+    actionTaken: 'No Action',
+    adminRemarks: 'Verified compliant posting frequency within subscription plan allowance.',
+    resolvedDate: null,
+    description: 'Flag claiming listing was refreshed too often.',
+    actionHistory: [
+      { id: 'ACT-R14', action: 'Report Submitted', reason: 'Excessive reposting frequency', takenBy: 'Deepak Joshi', date: '2025-02-01 11:30' },
+      { id: 'ACT-R15', action: 'Report Dismissed', reason: 'Posting intervals comply with fair usage', takenBy: 'Marcus Vance (Super Admin)', date: '2025-02-02 09:15' }
+    ]
+  }
+];
+
+export const initialMockCandidates = [
+  {
+    id: 'CND-3001',
+    name: 'Aarav Sharma',
+    email: 'aarav.sharma@example.com',
+    phone: '+91 98451 22334',
+    registrationDate: '2024-11-14',
+    accountStatus: 'Active',
+    lastLogin: '2025-02-12 14:32',
+    profileDetails: {
+      primaryRole: 'Senior Full Stack Developer',
+      experience: '6 Years in enterprise web engineering and cloud microservices',
+      skills: ['React', 'Node.js', 'TypeScript', 'PostgreSQL', 'AWS'],
+      education: 'B.Tech Computer Science, RVCE Bengaluru (2018)'
+    },
+    hasResume: true,
+    resumeName: 'Aarav_Sharma_Resume.pdf',
+    actionReason: 'Standard initial account verification',
+    actionTakenBy: 'Marcus Vance (Super Admin)',
+    actionDate: '2024-11-14',
+    actionHistory: [
+      { id: 'ACT-C101', action: 'Account Created', reason: 'Self-service candidate registration verified', takenBy: 'System', date: '2024-11-14 10:20' }
+    ]
+  },
+  {
+    id: 'CND-3002',
+    name: 'Pooja Patel',
+    email: 'pooja.patel@example.com',
+    phone: '+91 98201 33445',
+    registrationDate: '2024-11-28',
+    accountStatus: 'Active',
+    lastLogin: '2025-02-11 09:15',
+    profileDetails: {
+      primaryRole: 'DevOps & Cloud Engineer',
+      experience: '5 Years in Kubernetes, Terraform, and multi-region AWS architectures',
+      skills: ['Kubernetes', 'Terraform', 'AWS', 'Docker', 'CI/CD Pipelines'],
+      education: 'B.E. Information Technology, VJTI Mumbai (2019)'
+    },
+    hasResume: true,
+    resumeName: 'Pooja_Patel_CloudDevOps.pdf',
+    actionReason: 'Profile details verified against credential registry',
+    actionTakenBy: 'Marcus Vance (Super Admin)',
+    actionDate: '2024-11-28',
+    actionHistory: [
+      { id: 'ACT-C102', action: 'Account Created', reason: 'Self-service registration', takenBy: 'System', date: '2024-11-28 11:00' }
+    ]
+  },
+  {
+    id: 'CND-3003',
+    name: 'Rohan Verma',
+    email: 'rohan.verma@example.com',
+    phone: '+91 98112 44556',
+    registrationDate: '2024-12-05',
+    accountStatus: 'Blocked',
+    lastLogin: '2025-02-04 18:20',
+    profileDetails: {
+      primaryRole: 'Lead UI/UX Designer',
+      experience: '7 Years in design systems, high-fidelity prototyping, and SaaS product UX',
+      skills: ['Figma', 'Design Systems', 'UX Research', 'Prototyping', 'Design Tokens'],
+      education: 'B.Des Industrial & Interaction Design, NID Ahmedabad (2017)'
+    },
+    hasResume: true,
+    resumeName: 'Rohan_Verma_Portfolio_Resume.pdf',
+    actionReason: 'Repeated non-compliance with interview attendance protocols',
+    actionTakenBy: 'Marcus Vance (Super Admin)',
+    actionDate: '2025-02-05',
+    actionHistory: [
+      { id: 'ACT-C103', action: 'Account Created', reason: 'Self-service registration', takenBy: 'System', date: '2024-12-05 14:10' },
+      { id: 'ACT-C104', action: 'Account Blocked', reason: 'Repeated non-compliance with interview attendance protocols', takenBy: 'Marcus Vance (Super Admin)', date: '2025-02-05 11:30' }
+    ]
+  },
+  {
+    id: 'CND-3004',
+    name: 'Ananya Iyer',
+    email: 'ananya.iyer@example.com',
+    phone: '+91 98403 55667',
+    registrationDate: '2024-12-19',
+    accountStatus: 'Active',
+    lastLogin: '2025-02-12 16:40',
+    profileDetails: {
+      primaryRole: 'Data Scientist (NLP / ML)',
+      experience: '4 Years building fine-tuned LLM agents and predictive statistical pipelines',
+      skills: ['Python', 'PyTorch', 'LangChain', 'SQL', 'Snowflake', 'Scikit-Learn'],
+      education: 'M.Tech Data Science & AI, IIT Madras (2020)'
+    },
+    hasResume: true,
+    resumeName: 'Ananya_Iyer_NLP_Scientist.pdf',
+    actionReason: 'Verified educational credentials and published models',
+    actionTakenBy: 'Marcus Vance (Super Admin)',
+    actionDate: '2024-12-19',
+    actionHistory: [
+      { id: 'ACT-C105', action: 'Account Created', reason: 'Self-service registration', takenBy: 'System', date: '2024-12-19 08:50' }
+    ]
+  },
+  {
+    id: 'CND-3005',
+    name: 'Kavita Rao',
+    email: 'kavita.rao@example.com',
+    phone: '+91 98864 66778',
+    registrationDate: '2025-01-08',
+    accountStatus: 'Active',
+    lastLogin: '2025-02-09 12:10',
+    profileDetails: {
+      primaryRole: 'HR Business Partner',
+      experience: '5 Years leading talent acquisition strategy, compensation parity, and labor laws',
+      skills: ['HR Operations', 'Talent Acquisition', 'Labor Compliance', 'Workday', 'Payroll'],
+      education: 'MBA Human Resources, XLRI Jamshedpur (2019)'
+    },
+    hasResume: false,
+    resumeName: null,
+    actionReason: 'Pending physical document upload verification',
+    actionTakenBy: 'Marcus Vance (Super Admin)',
+    actionDate: '2025-01-08',
+    actionHistory: [
+      { id: 'ACT-C106', action: 'Account Created', reason: 'Self-service registration', takenBy: 'System', date: '2025-01-08 13:00' }
+    ]
+  },
+  {
+    id: 'CND-3006',
+    name: 'Vikram Malhotra',
+    email: 'vikram.malhotra@example.com',
+    phone: '+91 98725 77889',
+    registrationDate: '2025-01-14',
+    accountStatus: 'Inactive',
+    lastLogin: '2025-01-20 10:05',
+    profileDetails: {
+      primaryRole: 'Cybersecurity Analyst',
+      experience: '3 Years conducting SOC threat hunting and SIEM telemetry inspections',
+      skills: ['SIEM', 'Splunk', 'Penetration Testing', 'Network Security', 'Wireshark'],
+      education: 'B.Tech Information Technology, COEP Pune (2021)'
+    },
+    hasResume: true,
+    resumeName: 'Vikram_Malhotra_Security_Analyst.pdf',
+    actionReason: 'Candidate marked profile inactive due to sabbatical',
+    actionTakenBy: 'Marcus Vance (Super Admin)',
+    actionDate: '2025-01-22',
+    actionHistory: [
+      { id: 'ACT-C107', action: 'Account Created', reason: 'Self-service registration', takenBy: 'System', date: '2025-01-14 15:45' },
+      { id: 'ACT-C108', action: 'Status Set to Inactive', reason: 'Candidate requested temporary account deactivation', takenBy: 'Marcus Vance (Super Admin)', date: '2025-01-22 09:30' }
+    ]
+  },
+  {
+    id: 'CND-3007',
+    name: 'Meera Sen',
+    email: 'meera.sen@example.com',
+    phone: '+91 98306 88990',
+    registrationDate: '2025-01-20',
+    accountStatus: 'Active',
+    lastLogin: '2025-02-12 17:15',
+    profileDetails: {
+      primaryRole: 'Frontend React Developer',
+      experience: '3 Years specializing in accessible UI component systems and state stores',
+      skills: ['React', 'Next.js', 'Redux Toolkit', 'Tailwind CSS', 'Jest'],
+      education: 'B.Tech Computer Science, Jadavpur University (2021)'
+    },
+    hasResume: true,
+    resumeName: 'Meera_Sen_Frontend_Developer.pdf',
+    actionReason: 'Candidate portfolio verified and active',
+    actionTakenBy: 'Marcus Vance (Super Admin)',
+    actionDate: '2025-01-20',
+    actionHistory: [
+      { id: 'ACT-C109', action: 'Account Created', reason: 'Self-service registration', takenBy: 'System', date: '2025-01-20 11:15' }
+    ]
+  },
+  {
+    id: 'CND-3008',
+    name: 'Deepak Joshi',
+    email: 'deepak.joshi@example.com',
+    phone: '+91 98297 99001',
+    registrationDate: '2025-01-26',
+    accountStatus: 'Blocked',
+    lastLogin: '2025-01-30 08:45',
+    profileDetails: {
+      primaryRole: 'Finance & Accounts Specialist',
+      experience: '4 Years in statutory audits, GST reconciliation, and ledger balance books',
+      skills: ['Tally Prime', 'GST Filings', 'SAP FICO', 'Financial Modeling', 'Excel Advanced'],
+      education: 'M.Com Banking & Finance, Rajasthan University (2020)'
+    },
+    hasResume: false,
+    resumeName: null,
+    actionReason: 'Flagged for submitting duplicate fraudulent identity documents',
+    actionTakenBy: 'Marcus Vance (Super Admin)',
+    actionDate: '2025-01-31',
+    actionHistory: [
+      { id: 'ACT-C110', action: 'Account Created', reason: 'Self-service registration', takenBy: 'System', date: '2025-01-26 14:00' },
+      { id: 'ACT-C111', action: 'Account Blocked', reason: 'Flagged for submitting duplicate fraudulent identity documents', takenBy: 'Marcus Vance (Super Admin)', date: '2025-01-31 16:20' }
+    ]
+  },
+  {
+    id: 'CND-3009',
+    name: 'Siddharth Nair',
+    email: 'siddharth.nair@example.com',
+    phone: '+91 98478 11223',
+    registrationDate: '2025-02-02',
+    accountStatus: 'Active',
+    lastLogin: '2025-02-11 15:30',
+    profileDetails: {
+      primaryRole: 'Backend Go & Java Engineer',
+      experience: '5 Years in high-throughput distributed transaction engines',
+      skills: ['Go (Golang)', 'Spring Boot', 'Kafka', 'Redis', 'Docker', 'PostgreSQL'],
+      education: 'B.Tech Computer Science, CUSAT Kochi (2019)'
+    },
+    hasResume: true,
+    resumeName: 'Siddharth_Nair_Go_Backend.pdf',
+    actionReason: 'Verified engineering experience and assessments',
+    actionTakenBy: 'Marcus Vance (Super Admin)',
+    actionDate: '2025-02-02',
+    actionHistory: [
+      { id: 'ACT-C112', action: 'Account Created', reason: 'Self-service registration', takenBy: 'System', date: '2025-02-02 10:45' }
+    ]
+  },
+  {
+    id: 'CND-3010',
+    name: 'Priyanka Deshmukh',
+    email: 'priyanka.deshmukh@example.com',
+    phone: '+91 98229 22334',
+    registrationDate: '2025-02-06',
+    accountStatus: 'Active',
+    lastLogin: '2025-02-12 18:00',
+    profileDetails: {
+      primaryRole: 'Product Operations Lead',
+      experience: '6 Years in feature lifecycle tracking, agile delivery, and cross-team roadmaps',
+      skills: ['Agile Scrum', 'JIRA', 'SQL', 'Product Analytics', 'User Retention'],
+      education: 'B.E. Computer Science, Pune University (2018)'
+    },
+    hasResume: false,
+    resumeName: null,
+    actionReason: 'Initial setup verification complete',
+    actionTakenBy: 'Marcus Vance (Super Admin)',
+    actionDate: '2025-02-06',
+    actionHistory: [
+      { id: 'ACT-C113', action: 'Account Created', reason: 'Self-service registration', takenBy: 'System', date: '2025-02-06 09:20' }
+    ]
+  }
+];
+
+

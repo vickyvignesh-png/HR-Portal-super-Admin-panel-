@@ -104,7 +104,7 @@
   --z-sticky: 100;
   --z-dropdown: 200;
   --z-drawer: 300;
-  --z-modal-backdrop: 400;
-  --z-modal: 500;
-  --z-toast: 1000;
+  --z-modal-backdrop: 9999;
+  --z-modal: 10000;
+  --z-toast: 10050;
 }

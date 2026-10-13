@@ -8,7 +8,10 @@ import {
   initialMockAdminUsers,
   initialMockSettings,
   initialMockAuditLogs,
-  initialMockSecurityEvents
+  initialMockSecurityEvents,
+  initialMockPostedJobs,
+  initialMockReportedJobs,
+  initialMockCandidates
 } from '../data/mockData';
 
 const STORAGE_KEYS = {
@@ -22,7 +25,10 @@ const STORAGE_KEYS = {
   ROLES: 'hr_superadmin_roles',
   SETTINGS: 'hr_superadmin_settings',
   AUDIT_LOGS: 'hr_superadmin_audit_logs',
-  SECURITY_EVENTS: 'hr_superadmin_security_events'
+  SECURITY_EVENTS: 'hr_superadmin_security_events',
+  POSTED_JOBS: 'hr_superadmin_posted_jobs',
+  REPORTED_JOBS: 'hr_superadmin_reported_jobs',
+  CANDIDATES: 'hr_superadmin_candidates'
 };
 
 const safeGet = (key, fallback) => {
@@ -76,6 +82,15 @@ export const storageService = {
     if (!localStorage.getItem(STORAGE_KEYS.SECURITY_EVENTS)) {
       safeSet(STORAGE_KEYS.SECURITY_EVENTS, initialMockSecurityEvents);
     }
+    if (!localStorage.getItem(STORAGE_KEYS.POSTED_JOBS)) {
+      safeSet(STORAGE_KEYS.POSTED_JOBS, initialMockPostedJobs);
+    }
+    if (!localStorage.getItem(STORAGE_KEYS.REPORTED_JOBS)) {
+      safeSet(STORAGE_KEYS.REPORTED_JOBS, initialMockReportedJobs);
+    }
+    if (!localStorage.getItem(STORAGE_KEYS.CANDIDATES)) {
+      safeSet(STORAGE_KEYS.CANDIDATES, initialMockCandidates);
+    }
   },
 
   resetAll() {
@@ -89,6 +104,9 @@ export const storageService = {
     safeSet(STORAGE_KEYS.SETTINGS, initialMockSettings);
     safeSet(STORAGE_KEYS.AUDIT_LOGS, initialMockAuditLogs);
     safeSet(STORAGE_KEYS.SECURITY_EVENTS, initialMockSecurityEvents);
+    safeSet(STORAGE_KEYS.POSTED_JOBS, initialMockPostedJobs);
+    safeSet(STORAGE_KEYS.REPORTED_JOBS, initialMockReportedJobs);
+    safeSet(STORAGE_KEYS.CANDIDATES, initialMockCandidates);
   },
 
   // Audit Logs
@@ -449,5 +467,408 @@ export const storageService = {
   // Security Events
   getSecurityEvents() {
     return safeGet(STORAGE_KEYS.SECURITY_EVENTS, initialMockSecurityEvents);
+  },
+
+  // Posted Jobs
+  getPostedJobs() {
+    return safeGet(STORAGE_KEYS.POSTED_JOBS, initialMockPostedJobs);
+  },
+
+  getPostedJobById(id) {
+    const list = this.getPostedJobs();
+    return list.find((j) => j.id === id);
+  },
+
+  savePostedJob(jobData) {
+    const list = this.getPostedJobs();
+    const index = list.findIndex((j) => j.id === jobData.id);
+    let updated;
+    const now = new Date().toISOString().slice(0, 10);
+
+    if (index >= 0) {
+      const old = list[index];
+      const updatedJob = { ...old, ...jobData, lastUpdated: now };
+      updated = [...list];
+      updated[index] = updatedJob;
+
+      this.logAuditEvent({
+        module: 'Job Management',
+        action: 'Update Job',
+        companyReference: updatedJob.companyName || updatedJob.company,
+        recordReference: updatedJob.id,
+        oldValue: `${old.title} (${old.jobStatus || old.status})`,
+        newValue: `${updatedJob.title} (${updatedJob.jobStatus || updatedJob.status})`,
+        reason: 'Super Admin updated job requisition parameters'
+      });
+      safeSet(STORAGE_KEYS.POSTED_JOBS, updated);
+      return updatedJob;
+    } else {
+      const newJob = {
+        ...jobData,
+        id: jobData.id || `JOB-${(2000 + list.length + 1).toString()}`,
+        postedDate: jobData.postedDate || now,
+        lastUpdated: now
+      };
+      updated = [newJob, ...list];
+      this.logAuditEvent({
+        module: 'Job Management',
+        action: 'Create Job',
+        companyReference: newJob.companyName || newJob.company,
+        recordReference: newJob.id,
+        oldValue: 'N/A',
+        newValue: `${newJob.title} (${newJob.jobStatus || newJob.status})`,
+        reason: 'Super Admin posted requisition'
+      });
+      safeSet(STORAGE_KEYS.POSTED_JOBS, updated);
+      return newJob;
+    }
+  },
+
+  closeJob(id, { reason = 'Closed by Super Admin', adminUser = 'Marcus Vance (Super Admin)' } = {}) {
+    const list = this.getPostedJobs();
+    const index = list.findIndex((j) => j.id === id);
+    if (index === -1) return null;
+
+    const job = list[index];
+    const now = new Date().toISOString().slice(0, 10);
+    const nowTime = new Date().toISOString().replace('T', ' ').slice(0, 16);
+
+    const historyItem = {
+      id: `ACT-J${Date.now().toString().slice(-4)}`,
+      action: 'Job Closed',
+      reason,
+      takenBy: adminUser,
+      date: nowTime
+    };
+
+    const updatedJob = {
+      ...job,
+      jobStatus: 'Closed',
+      status: 'Closed',
+      lastUpdated: now,
+      actionHistory: [historyItem, ...(job.actionHistory || [])]
+    };
+
+    const updatedList = [...list];
+    updatedList[index] = updatedJob;
+    safeSet(STORAGE_KEYS.POSTED_JOBS, updatedList);
+
+    this.logAuditEvent({
+      module: 'Job Management',
+      action: 'Close Job',
+      companyReference: updatedJob.companyName || updatedJob.company,
+      recordReference: updatedJob.id,
+      oldValue: job.jobStatus || job.status,
+      newValue: 'Closed',
+      reason
+    });
+
+    return updatedJob;
+  },
+
+  toggleDeactivateJob(id, { reason = 'Administrative deactivation', adminUser = 'Marcus Vance (Super Admin)' } = {}) {
+    const list = this.getPostedJobs();
+    const index = list.findIndex((j) => j.id === id);
+    if (index === -1) return null;
+
+    const job = list[index];
+    const now = new Date().toISOString().slice(0, 10);
+    const nowTime = new Date().toISOString().replace('T', ' ').slice(0, 16);
+    const willDeactivate = !job.isDeactivated;
+
+    const historyItem = {
+      id: `ACT-J${Date.now().toString().slice(-4)}`,
+      action: willDeactivate ? 'Job Deactivated' : 'Job Reactivated',
+      reason: willDeactivate ? reason : 'Reactivated by Super Admin',
+      takenBy: adminUser,
+      date: nowTime
+    };
+
+    const updatedJob = {
+      ...job,
+      isDeactivated: willDeactivate,
+      deactivationReason: willDeactivate ? reason : null,
+      lastUpdated: now,
+      actionHistory: [historyItem, ...(job.actionHistory || [])]
+    };
+
+    const updatedList = [...list];
+    updatedList[index] = updatedJob;
+    safeSet(STORAGE_KEYS.POSTED_JOBS, updatedList);
+
+    this.logAuditEvent({
+      module: 'Job Management',
+      action: willDeactivate ? 'Deactivate Job' : 'Reactivate Job',
+      companyReference: updatedJob.companyName || updatedJob.company,
+      recordReference: updatedJob.id,
+      oldValue: job.isDeactivated ? 'Deactivated' : 'Active Availability',
+      newValue: willDeactivate ? 'Deactivated' : 'Active Availability',
+      reason: willDeactivate ? reason : 'Super Admin reinstated availability'
+    });
+
+    return updatedJob;
+  },
+
+  // Reported Jobs
+  getReportedJobs() {
+    return safeGet(STORAGE_KEYS.REPORTED_JOBS, initialMockReportedJobs);
+  },
+
+  getReportedJobById(id) {
+    const list = this.getReportedJobs();
+    return list.find((r) => r.id === id);
+  },
+
+  saveReportedJob(reportData) {
+    const list = this.getReportedJobs();
+    const index = list.findIndex((r) => r.id === reportData.id);
+    let updated;
+    const now = new Date().toISOString().slice(0, 10);
+
+    if (index >= 0) {
+      const old = list[index];
+      const updatedReport = { ...old, ...reportData, lastUpdated: now };
+      updated = [...list];
+      updated[index] = updatedReport;
+
+      this.logAuditEvent({
+        module: 'Job Management',
+        action: 'Review Reported Job',
+        companyReference: updatedReport.companyName || updatedReport.company,
+        recordReference: updatedReport.id,
+        oldValue: `${old.reportStatus || old.status} - ${old.actionTaken || 'None'}`,
+        newValue: `${updatedReport.reportStatus || updatedReport.status} - ${updatedReport.actionTaken || 'None'}`,
+        reason: updatedReport.adminRemarks || updatedReport.resolutionNotes || 'Review status and audit update'
+      });
+      safeSet(STORAGE_KEYS.REPORTED_JOBS, updated);
+      return updatedReport;
+    } else {
+      const newReport = {
+        ...reportData,
+        id: reportData.id || `REP-${(5000 + list.length + 1).toString()}`,
+        reportedDate: reportData.reportedDate || reportData.reportDate || now,
+        lastUpdated: now
+      };
+      updated = [newReport, ...list];
+      safeSet(STORAGE_KEYS.REPORTED_JOBS, updated);
+      return newReport;
+    }
+  },
+
+  resolveReport(id, { actionTaken = 'No Action', adminRemarks = '', adminUser = 'Marcus Vance (Super Admin)' } = {}) {
+    const list = this.getReportedJobs();
+    const index = list.findIndex((r) => r.id === id);
+    if (index === -1) return null;
+
+    const report = list[index];
+    const now = new Date().toISOString().slice(0, 10);
+    const nowTime = new Date().toISOString().replace('T', ' ').slice(0, 16);
+
+    const historyItem = {
+      id: `ACT-R${Date.now().toString().slice(-4)}`,
+      action: actionTaken === 'Job Deactivated' ? 'Report Resolved (Job Deactivated)' : actionTaken === 'Warning' ? 'Report Resolved (Warning Issued)' : 'Report Resolved (No Action)',
+      reason: adminRemarks || 'Resolved by Super Admin',
+      takenBy: adminUser,
+      date: nowTime
+    };
+
+    const updatedReport = {
+      ...report,
+      reportStatus: 'Resolved',
+      status: 'Resolved',
+      actionTaken,
+      adminRemarks,
+      resolvedDate: now,
+      lastUpdated: now,
+      actionHistory: [historyItem, ...(report.actionHistory || [])]
+    };
+
+    const updatedList = [...list];
+    updatedList[index] = updatedReport;
+    safeSet(STORAGE_KEYS.REPORTED_JOBS, updatedList);
+
+    // If Action Taken is 'Job Deactivated', update associated job's availability
+    if (actionTaken === 'Job Deactivated') {
+      const postedJobs = this.getPostedJobs();
+      const jobIdx = postedJobs.findIndex((j) => j.id === report.jobId || j.title === report.jobTitle);
+      if (jobIdx >= 0) {
+        const targetJob = postedJobs[jobIdx];
+        const jobHistoryItem = {
+          id: `ACT-J${Date.now().toString().slice(-4)}`,
+          action: 'Job Deactivated',
+          reason: `Deactivated following incident report ${report.id}: ${adminRemarks}`,
+          takenBy: adminUser,
+          date: nowTime
+        };
+        const updatedTargetJob = {
+          ...targetJob,
+          isDeactivated: true,
+          deactivationReason: `Report ${report.id}: ${adminRemarks}`,
+          lastUpdated: now,
+          actionHistory: [jobHistoryItem, ...(targetJob.actionHistory || [])]
+        };
+        const updatedPostedJobs = [...postedJobs];
+        updatedPostedJobs[jobIdx] = updatedTargetJob;
+        safeSet(STORAGE_KEYS.POSTED_JOBS, updatedPostedJobs);
+
+        this.logAuditEvent({
+          module: 'Job Management',
+          action: 'Deactivate Job via Report',
+          companyReference: targetJob.companyName || targetJob.company,
+          recordReference: targetJob.id,
+          oldValue: targetJob.isDeactivated ? 'Deactivated' : 'Active Availability',
+          newValue: 'Deactivated',
+          reason: `Deactivated pursuant to incident resolution on ${report.id}`
+        });
+      }
+    }
+
+    this.logAuditEvent({
+      module: 'Job Management',
+      action: 'Resolve Incident Report',
+      companyReference: updatedReport.companyName || updatedReport.company,
+      recordReference: updatedReport.id,
+      oldValue: report.reportStatus || report.status,
+      newValue: `Resolved (${actionTaken})`,
+      reason: adminRemarks
+    });
+
+    return updatedReport;
+  },
+
+  dismissReport(id, { dismissalReason = '', adminUser = 'Marcus Vance (Super Admin)' } = {}) {
+    const list = this.getReportedJobs();
+    const index = list.findIndex((r) => r.id === id);
+    if (index === -1) return null;
+
+    const report = list[index];
+    const now = new Date().toISOString().slice(0, 10);
+    const nowTime = new Date().toISOString().replace('T', ' ').slice(0, 16);
+
+    const historyItem = {
+      id: `ACT-R${Date.now().toString().slice(-4)}`,
+      action: 'Report Dismissed',
+      reason: dismissalReason || 'Dismissed by Super Admin',
+      takenBy: adminUser,
+      date: nowTime
+    };
+
+    const updatedReport = {
+      ...report,
+      reportStatus: 'Dismissed',
+      status: 'Dismissed',
+      adminRemarks: dismissalReason,
+      resolvedDate: null,
+      lastUpdated: now,
+      actionHistory: [historyItem, ...(report.actionHistory || [])]
+    };
+
+    const updatedList = [...list];
+    updatedList[index] = updatedReport;
+    safeSet(STORAGE_KEYS.REPORTED_JOBS, updatedList);
+
+    this.logAuditEvent({
+      module: 'Job Management',
+      action: 'Dismiss Incident Report',
+      companyReference: updatedReport.companyName || updatedReport.company,
+      recordReference: updatedReport.id,
+      oldValue: report.reportStatus || report.status,
+      newValue: 'Dismissed',
+      reason: dismissalReason
+    });
+
+    return updatedReport;
+  },
+
+  // Candidates
+  getCandidates() {
+    return safeGet(STORAGE_KEYS.CANDIDATES, initialMockCandidates);
+  },
+
+  getCandidateById(id) {
+    const list = this.getCandidates();
+    return list.find((c) => c.id === id);
+  },
+
+  saveCandidate(candidateData) {
+    const list = this.getCandidates();
+    const index = list.findIndex((c) => c.id === candidateData.id);
+    let updated;
+    const now = new Date().toISOString().slice(0, 10);
+
+    if (index >= 0) {
+      const old = list[index];
+      const updatedCandidate = { ...old, ...candidateData, lastActive: now };
+      updated = [...list];
+      updated[index] = updatedCandidate;
+
+      this.logAuditEvent({
+        module: 'Candidate Management',
+        action: 'Update Candidate Status',
+        companyReference: 'Global Candidate Directory',
+        recordReference: updatedCandidate.id,
+        oldValue: old.accountStatus || old.status,
+        newValue: updatedCandidate.accountStatus || updatedCandidate.status,
+        reason: updatedCandidate.actionReason || 'Super Admin updated candidate profile verification/status'
+      });
+      safeSet(STORAGE_KEYS.CANDIDATES, updated);
+      return updatedCandidate;
+    } else {
+      const newCandidate = {
+        ...candidateData,
+        id: candidateData.id || `CND-${(3000 + list.length + 1).toString()}`,
+        registrationDate: candidateData.registrationDate || now,
+        lastActive: now
+      };
+      updated = [newCandidate, ...list];
+      safeSet(STORAGE_KEYS.CANDIDATES, updated);
+      return newCandidate;
+    }
+  },
+
+  toggleBlockCandidate(id, { reason = '', adminUser = 'Marcus Vance (Super Admin)' } = {}) {
+    const list = this.getCandidates();
+    const index = list.findIndex((c) => c.id === id);
+    if (index === -1) return null;
+
+    const candidate = list[index];
+    const isCurrentlyBlocked = candidate.accountStatus === 'Blocked';
+    const newStatus = isCurrentlyBlocked ? 'Active' : 'Blocked';
+    const now = new Date().toISOString().slice(0, 10);
+    const nowTime = new Date().toISOString().replace('T', ' ').slice(0, 16);
+
+    const historyItem = {
+      id: `ACT-C${Date.now().toString().slice(-4)}`,
+      action: isCurrentlyBlocked ? 'Account Unblocked' : 'Account Blocked',
+      reason: reason || (isCurrentlyBlocked ? 'Unblocked by Super Admin' : 'Blocked by Super Admin'),
+      takenBy: adminUser,
+      date: nowTime
+    };
+
+    const updatedCandidate = {
+      ...candidate,
+      accountStatus: newStatus,
+      status: newStatus,
+      actionReason: reason,
+      actionTakenBy: adminUser,
+      actionDate: now,
+      actionHistory: [historyItem, ...(candidate.actionHistory || [])]
+    };
+
+    const updatedList = [...list];
+    updatedList[index] = updatedCandidate;
+    safeSet(STORAGE_KEYS.CANDIDATES, updatedList);
+
+    this.logAuditEvent({
+      module: 'Candidate Management',
+      action: isCurrentlyBlocked ? 'Unblock Candidate Account' : 'Block Candidate Account',
+      companyReference: candidate.name,
+      recordReference: candidate.id,
+      oldValue: candidate.accountStatus || candidate.status,
+      newValue: newStatus,
+      reason: reason || (isCurrentlyBlocked ? 'Account unblocked' : 'Account blocked')
+    });
+
+    return updatedCandidate;
   }
 };

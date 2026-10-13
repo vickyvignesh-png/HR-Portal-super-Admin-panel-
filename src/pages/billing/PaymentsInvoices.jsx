@@ -345,7 +345,6 @@ export const PaymentsInvoices = () => {
     <div className="billing-container">
       <PageHeader
         title="Payments & Invoices"
-        description="Enterprise SaaS billing ledger, revenue reconciliation, invoice documentation, and simulated dispute refunds."
         actions={
           <Button variant="secondary" icon={Download} onClick={handleExportCSV}>
             Export CSV
@@ -396,7 +395,7 @@ export const PaymentsInvoices = () => {
               setSearchTerm(val);
               setCurrentPage(1);
             }}
-            placeholder="Search by Payment ID, company, subscription, or invoice..."
+            placeholder="Search"
           />
 
           <select

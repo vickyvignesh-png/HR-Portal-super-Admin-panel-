@@ -304,7 +304,6 @@ export const RolesPermissions = () => {
     <div className="access-container">
       <PageHeader
         title="Roles & Permissions"
-        description="Role-first access governance. Define security roles and grant granular operational permissions to Super Admin operators."
         actions={
           <div className="access-header-buttons">
             <Button
@@ -368,7 +367,7 @@ export const RolesPermissions = () => {
               setSearchTerm(val);
               setCurrentPage(1);
             }}
-            placeholder="Search by User ID, name, email, or role..."
+            placeholder="Search"
           />
 
           <select

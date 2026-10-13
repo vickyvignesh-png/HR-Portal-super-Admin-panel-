@@ -296,7 +296,6 @@ export const SubscriptionPlans = () => {
     <div className="plans-container">
       <PageHeader
         title="Subscription Plans"
-        description="Oversee subscription tiers, feature quotas, pricing structures, and active corporate assignments."
         actions={
           <Button variant="primary" icon={Plus} onClick={handleOpenCreate}>
             Create Plan
@@ -313,7 +312,7 @@ export const SubscriptionPlans = () => {
               setSearchTerm(val);
               setCurrentPage(1);
             }}
-            placeholder="Search by plan name or plan ID..."
+            placeholder="Search"
           />
 
           <select

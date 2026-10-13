@@ -269,7 +269,6 @@ export const CompanyUsage = () => {
     <div className="usage-container">
       <PageHeader
         title="Company Usage"
-        description="Monitor tenant quota consumption across jobs, alerts, and platform storage. Sorted by highest consumption priority."
         actions={
           <Button variant="secondary" icon={Download} onClick={handleExportCSV}>
             Export CSV
@@ -286,7 +285,7 @@ export const CompanyUsage = () => {
               setSearchTerm(val);
               setCurrentPage(1);
             }}
-            placeholder="Search by company ID or name..."
+            placeholder="Search"
           />
 
           <select

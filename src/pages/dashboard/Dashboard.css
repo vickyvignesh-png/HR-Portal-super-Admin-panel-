@@ -1,0 +1,588 @@
+/* ==========================================================================
+   HR PORTAL — REFINED SUPER ADMIN DASHBOARD CSS
+   Enterprise SaaS Layout with 5 Dedicated Sections
+   ========================================================================== */
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  width: 100%;
+  padding-bottom: 24px;
+}
+
+/* --------------------------------------------------------------------------
+   Section Common Wrappers & Headings
+   -------------------------------------------------------------------------- */
+.dashboard-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+
+.section-title-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dashboard-section-heading {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.badge-pending-count {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  background-color: #FEF2F2;
+  color: #DC2626;
+  border: 1px solid #FECACA;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* --------------------------------------------------------------------------
+   SECTION 1: Key Metrics (8 Compact Cards Grid)
+   -------------------------------------------------------------------------- */
+.key-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+@media (max-width: 1280px) {
+  .key-metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .key-metrics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.metric-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.metric-card:hover {
+  transform: translateY(-2px);
+  border-color: #2563EB;
+  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.08);
+}
+
+.metric-icon-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.metric-icon-blue {
+  background-color: #EFF6FF;
+  color: #2563EB;
+}
+
+.metric-icon-emerald {
+  background-color: #ECFDF5;
+  color: #059669;
+}
+
+.metric-icon-indigo {
+  background-color: #EEF2FF;
+  color: #4F46E5;
+}
+
+.metric-icon-purple {
+  background-color: #FAF5FF;
+  color: #7C3AED;
+}
+
+.metric-icon-teal {
+  background-color: #F0FDFA;
+  color: #0D9488;
+}
+
+.metric-icon-amber {
+  background-color: #FFFBEB;
+  color: #D97706;
+}
+
+.metric-icon-orange {
+  background-color: #FFF7ED;
+  color: #EA580C;
+}
+
+.metric-icon-rose {
+  background-color: #FFF1F2;
+  color: #E11D48;
+}
+
+.metric-details {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.metric-label {
+  font-size: 0.775rem;
+  font-weight: 600;
+  color: #64748B;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.01em;
+}
+
+.metric-value {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0F172A;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --------------------------------------------------------------------------
+   SECTION 2: Revenue & Growth Analytics (2 Medium Cards)
+   -------------------------------------------------------------------------- */
+.analytics-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .analytics-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.analytics-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.analytics-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.analytics-header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.analytics-card-title {
+  font-size: 0.975rem;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0;
+}
+
+.analytics-card-subtitle {
+  font-size: 0.775rem;
+  color: #64748B;
+}
+
+.analytics-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background-color: #EFF6FF;
+  color: #2563EB;
+  border: 1px solid #DBEAFE;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.chart-visual-wrapper {
+  width: 100%;
+  height: 200px;
+  position: relative;
+}
+
+.analytics-svg-chart {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.chart-axis-label {
+  font-size: 11px;
+  font-weight: 600;
+  fill: #94A3B8;
+  font-family: inherit;
+}
+
+.chart-point-label {
+  font-size: 11px;
+  font-weight: 700;
+  fill: #0F172A;
+  font-family: inherit;
+}
+
+.chart-bar-rect {
+  transition: opacity 160ms ease;
+  cursor: pointer;
+}
+
+.chart-bar-rect:hover {
+  opacity: 0.85;
+}
+
+/* --------------------------------------------------------------------------
+   SECTION 3: Subscription Overview (Donut & Status Breakdown)
+   -------------------------------------------------------------------------- */
+.subscription-overview-panel {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 22px 24px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+
+@media (max-width: 900px) {
+  .subscription-overview-panel {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+}
+
+.donut-chart-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 140px;
+  height: 140px;
+}
+
+.donut-svg-graphic {
+  width: 140px;
+  height: 140px;
+}
+
+.donut-center-total {
+  font-size: 20px;
+  font-weight: 800;
+  fill: #0F172A;
+  font-family: inherit;
+}
+
+.donut-center-caption {
+  font-size: 10px;
+  font-weight: 700;
+  fill: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-family: inherit;
+}
+
+.subscription-legend-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  flex: 1;
+}
+
+@media (max-width: 1200px) {
+  .subscription-legend-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .subscription-legend-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.sub-status-item-card {
+  background-color: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sub-status-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-color-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.status-dot-active {
+  background-color: #2563EB;
+}
+
+.status-dot-trial {
+  background-color: #F59E0B;
+}
+
+.status-dot-expired {
+  background-color: #EF4444;
+}
+
+.status-dot-cancelled {
+  background-color: #94A3B8;
+}
+
+.status-dot-suspended {
+  background-color: #64748B;
+}
+
+.sub-status-name {
+  font-size: 0.775rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.sub-status-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.sub-status-count {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0F172A;
+}
+
+.sub-status-pct {
+  font-size: 0.725rem;
+  font-weight: 700;
+  color: #64748B;
+}
+
+/* --------------------------------------------------------------------------
+   SECTION 4 & 5: Compact Data Tables (Action Required & Recent Activity)
+   -------------------------------------------------------------------------- */
+.compact-table-panel {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+.table-responsive-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.compact-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.875rem;
+}
+
+.compact-data-table thead {
+  background-color: #F8FAFC;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.compact-data-table th {
+  padding: 13px 18px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.compact-data-table td {
+  padding: 15px 18px;
+  border-bottom: 1px solid #F1F5F9;
+  color: #1E293B;
+  vertical-align: middle;
+}
+
+.compact-data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.compact-data-table tbody tr {
+  background-color: #FFFFFF;
+  transition: background-color 150ms ease;
+}
+
+.compact-data-table tbody tr:hover {
+  background-color: #F8FAFC;
+}
+
+/* Specific Column Widths and Alignments */
+.col-sno,
+.cell-sno {
+  width: 60px;
+  text-align: center;
+  font-weight: 600;
+  color: #64748B;
+}
+
+.col-action {
+  width: 90px;
+  text-align: right;
+}
+
+.cell-action {
+  text-align: right;
+}
+
+.cell-reference {
+  font-weight: 700;
+  color: #0F172A;
+  font-family: inherit;
+}
+
+.cell-company {
+  font-weight: 600;
+  color: #1E293B;
+}
+
+.cell-issue {
+  color: #475569;
+}
+
+.cell-activity {
+  font-weight: 600;
+  color: #0F172A;
+}
+
+.cell-datetime {
+  color: #64748B;
+  white-space: nowrap;
+}
+
+/* Status Pills */
+.table-status-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 9999px;
+  font-size: 0.725rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.pill-success {
+  background-color: #ECFDF5;
+  color: #059669;
+  border: 1px solid #A7F3D0;
+}
+
+.pill-warning {
+  background-color: #FFFBEB;
+  color: #D97706;
+  border: 1px solid #FDE68A;
+}
+
+.pill-danger {
+  background-color: #FEF2F2;
+  color: #DC2626;
+  border: 1px solid #FECACA;
+}
+
+.pill-info {
+  background-color: #EFF6FF;
+  color: #2563EB;
+  border: 1px solid #BFDBFE;
+}
+
+/* Table Action Button (Compact Icon-Only) */
+.table-action-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
+  padding: 0;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  color: #64748B;
+  border: 1px solid #E2E8F0;
+  cursor: pointer;
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+}
+
+.table-action-icon-btn:hover {
+  background-color: #EFF6FF;
+  color: #2563EB;
+  border-color: #BFDBFE;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.12);
+}
+
+.table-action-icon-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.table-empty-notice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 40px 20px;
+  color: #64748B;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
