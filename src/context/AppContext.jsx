@@ -14,7 +14,7 @@ export const AppProvider = ({ children }) => {
     id: 'USR-001',
     name: 'Marcus Vance',
     role: 'Super Admin',
-    email: 'hrportal@gmail.com'
+    email: 'superadmin@2026'
   });
 
   const { addToast } = useToast();
@@ -27,14 +27,14 @@ export const AppProvider = ({ children }) => {
     const cleanEmail = String(email || '').trim().toLowerCase();
     const cleanPin = String(pin || '').trim();
 
-    if (cleanEmail === 'hrportal@gmail.com' && cleanPin === '2026') {
+    if ((cleanEmail === 'superadmin@2026' || cleanEmail === 'hrportal@gmail.com') && cleanPin === '2026') {
       sessionStorage.setItem('hr_superadmin_auth', 'true');
       setIsAuthenticated(true);
       return { success: true };
     } else {
       return {
         success: false,
-        error: 'Invalid credentials. Demo access requires hrportal@gmail.com and PIN 2026.'
+        error: 'Invalid credentials.'
       };
     }
   };

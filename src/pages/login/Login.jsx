@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
-import { AlertCircle, User, Lock, Eye, EyeOff } from 'lucide-react';
+import { AlertCircle, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { useToast } from '../../context/ToastContext';
 import { Modal } from '../../components/common/Modal';
@@ -12,9 +12,9 @@ export const Login = () => {
   const { addToast } = useToast();
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState('');
-  const [pin, setPin] = useState('');
-  const [showPin, setShowPin] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [fieldErrors, setFieldErrors] = useState({});
@@ -28,22 +28,17 @@ export const Login = () => {
 
   const validate = () => {
     const errors = {};
-    const usernameTrimmed = username.trim();
+    const emailTrimmed = email.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!usernameTrimmed) {
-      errors.username = 'Username is required.';
-    } else if (!/^[a-zA-Z]+$/.test(usernameTrimmed)) {
-      errors.username = 'Username must contain alphabetic characters only (A–Z, a–z).';
-    } else if (fieldErrors.username && fieldErrors.username.includes('alphabetic characters')) {
-      errors.username = fieldErrors.username;
+    if (!emailTrimmed) {
+      errors.email = 'Email address is required.';
+    } else if (emailTrimmed.toLowerCase() !== 'superadmin@2026' && !emailRegex.test(emailTrimmed)) {
+      errors.email = 'Please enter a valid email address.';
     }
 
-    if (!pin) {
-      errors.pin = 'PIN is required.';
-    } else if (pin.length !== 4) {
-      errors.pin = 'PIN must be exactly 4 numeric digits.';
-    } else if (fieldErrors.pin && fieldErrors.pin.includes('numeric digits')) {
-      errors.pin = fieldErrors.pin;
+    if (!password) {
+      errors.password = 'Password is required.';
     }
 
     setFieldErrors(errors);
@@ -53,11 +48,9 @@ export const Login = () => {
     return Object.keys(errors).length === 0;
   };
 
-  const handleUsernameChange = (e) => {
-    const rawValue = e.target.value;
-    // Allow alphabetic characters only (A-Z, a-z), rejecting numbers, spaces, symbols
-    const alphabeticOnly = rawValue.replace(/[^a-zA-Z]/g, '');
-    setUsername(alphabeticOnly);
+  const handleEmailChange = (e) => {
+    const val = e.target.value;
+    setEmail(val);
 
     if (errorMessage) {
       setErrorMessage('');
@@ -65,38 +58,24 @@ export const Login = () => {
 
     if (isBothIncorrect) {
       setIsBothIncorrect(false);
-      // Username edited: clear username error and show PIN error since PIN was wrong
       setFieldErrors({
-        username: null,
-        pin: 'Invalid PIN. Please enter the correct PIN.'
+        email: null,
+        password: 'Invalid password. Please try again.'
       });
       return;
     }
 
-    // Validate while the user types
-    if (rawValue && /[^a-zA-Z]/.test(rawValue)) {
+    if (fieldErrors.email) {
       setFieldErrors((prev) => ({
         ...prev,
-        username: 'Username must contain alphabetic characters only (A–Z, a–z). Numbers, spaces, and symbols are not allowed.'
-      }));
-    } else if (alphabeticOnly.length === 0 && fieldErrors.username) {
-      setFieldErrors((prev) => ({
-        ...prev,
-        username: 'Username is required.'
-      }));
-    } else {
-      setFieldErrors((prev) => ({
-        ...prev,
-        username: null
+        email: null
       }));
     }
   };
 
-  const handlePinChange = (e) => {
-    const rawValue = e.target.value;
-    // Restrict input to numeric digits only and cap at 4 digits
-    const numericOnly = rawValue.replace(/\D/g, '').slice(0, 4);
-    setPin(numericOnly);
+  const handlePasswordChange = (e) => {
+    const val = e.target.value;
+    setPassword(val);
 
     if (errorMessage) {
       setErrorMessage('');
@@ -104,33 +83,17 @@ export const Login = () => {
 
     if (isBothIncorrect) {
       setIsBothIncorrect(false);
-      // PIN edited: clear PIN error and show Username error since Username was wrong
       setFieldErrors({
-        username: 'Invalid username. Please enter a valid username.',
-        pin: null
+        email: 'Invalid email. Please try again.',
+        password: null
       });
       return;
     }
 
-    if (rawValue && /\D/.test(rawValue)) {
+    if (fieldErrors.password) {
       setFieldErrors((prev) => ({
         ...prev,
-        pin: 'PIN must contain numeric digits only (0–9).'
-      }));
-    } else if (numericOnly.length === 4) {
-      setFieldErrors((prev) => ({
-        ...prev,
-        pin: null
-      }));
-    } else if (fieldErrors.pin && fieldErrors.pin.includes('numeric digits')) {
-      setFieldErrors((prev) => ({
-        ...prev,
-        pin: numericOnly.length === 0 ? 'PIN is required.' : 'PIN must be exactly 4 numeric digits.'
-      }));
-    } else {
-      setFieldErrors((prev) => ({
-        ...prev,
-        pin: null
+        password: null
       }));
     }
   };
@@ -146,14 +109,14 @@ export const Login = () => {
     setIsLoading(true);
 
     setTimeout(() => {
-      const cleanUsername = username.trim().toLowerCase();
-      const cleanPin = pin.trim();
+      const cleanEmail = email.trim().toLowerCase();
+      const cleanPassword = password;
 
-      const isUsernameCorrect = cleanUsername === 'hrportal';
-      const isPinCorrect = cleanPin === '2026';
+      const isEmailCorrect = cleanEmail === 'superadmin@2026';
+      const isPasswordCorrect = cleanPassword === '2026';
 
-      if (isUsernameCorrect && isPinCorrect) {
-        const result = login('hrportal@gmail.com', pin);
+      if (isEmailCorrect && isPasswordCorrect) {
+        const result = login(cleanEmail, cleanPassword);
         setIsLoading(false);
 
         if (result.success) {
@@ -168,23 +131,23 @@ export const Login = () => {
         }
       } else {
         setIsLoading(false);
-        if (!isUsernameCorrect && !isPinCorrect) {
+        if (!isEmailCorrect && !isPasswordCorrect) {
           setIsBothIncorrect(true);
           setFieldErrors({
-            username: 'Invalid username or PIN. Please try again.',
-            pin: null
+            email: 'Invalid email or password. Please try again.',
+            password: null
           });
-        } else if (!isUsernameCorrect) {
+        } else if (!isEmailCorrect) {
           setIsBothIncorrect(false);
           setFieldErrors({
-            username: 'Invalid username. Please enter a valid username.',
-            pin: null
+            email: 'Invalid email. Please try again.',
+            password: null
           });
         } else {
           setIsBothIncorrect(false);
           setFieldErrors({
-            username: null,
-            pin: 'Invalid PIN. Please enter the correct PIN.'
+            email: null,
+            password: 'Invalid password. Please try again.'
           });
         }
       }
@@ -241,85 +204,86 @@ export const Login = () => {
 
             {/* Sign-In Form */}
             <form onSubmit={handleSubmit} className="login-form-body" noValidate>
-              {/* 4. Username Input */}
+              {/* 4. Email Address Input */}
               <div className="login-input-group">
-                <label htmlFor="login-username-input" className="login-input-label">
-                  Username
+                <label htmlFor="login-email-input" className="login-input-label">
+                  Email Address
                 </label>
                 <div
                   className={`login-input-wrapper ${
-                    (fieldErrors.username || isBothIncorrect) ? 'input-error' : ''
+                    (fieldErrors.email || isBothIncorrect) ? 'input-error' : ''
                   }`}
                 >
-                  <User size={18} className="login-input-icon" />
+                  <Mail size={18} className="login-input-icon" />
                   <input
-                    id="login-username-input"
-                    data-testid="login-username-input"
-                    name="username"
-                    type="text"
-                    value={username}
-                    onChange={handleUsernameChange}
-                    placeholder="Enter your username"
+                    id="login-email-input"
+                    data-testid="login-email-input"
+                    name="email"
+                    type="email"
+                    value={email}
+                    onChange={handleEmailChange}
+                    placeholder="Enter your email address"
                     className="login-text-input"
-                    autoComplete="username"
-                    aria-label="Username"
+                    autoComplete="email"
+                    aria-label="Email Address"
                     disabled={isLoading}
                   />
                 </div>
-                {fieldErrors.username && (
+                {fieldErrors.email && (
                   <span className="login-error-message">
-                    {fieldErrors.username}
+                    {fieldErrors.email}
                   </span>
                 )}
               </div>
 
-              {/* 5. PIN Input */}
+              {/* 5. Password Input */}
               <div className="login-input-group">
-                <label htmlFor="login-pin-input" className="login-input-label">
-                  PIN
+                <label htmlFor="login-password-input" className="login-input-label">
+                  Password
                 </label>
                 <div
                   className={`login-input-wrapper ${
-                    (fieldErrors.pin || isBothIncorrect) ? 'input-error' : ''
+                    (fieldErrors.password || isBothIncorrect) ? 'input-error' : ''
                   }`}
                 >
                   <Lock size={18} className="login-input-icon" />
                   <input
-                    id="login-pin-input"
-                    type={showPin ? 'text' : 'password'}
-                    inputMode="numeric"
-                    maxLength={4}
-                    value={pin}
-                    onChange={handlePinChange}
-                    placeholder="Enter your 4-digit PIN"
-                    className="login-text-input pin-input-field"
+                    id="login-password-input"
+                    data-testid="login-password-input"
+                    name="password"
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={handlePasswordChange}
+                    placeholder="Enter your password"
+                    className="login-text-input pin-input-field password-input-field"
                     autoComplete="current-password"
+                    aria-label="Password"
                     disabled={isLoading}
                   />
                   <button
                     type="button"
-                    className="login-pin-toggle-btn"
-                    onClick={() => setShowPin(!showPin)}
-                    aria-label={showPin ? 'Hide PIN' : 'Show PIN'}
-                    title={showPin ? 'Hide PIN' : 'Show PIN'}
+                    className="login-pin-toggle-btn login-password-toggle-btn"
+                    onClick={() => setShowPassword(!showPassword)}
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    title={showPassword ? 'Hide password' : 'Show password'}
                     tabIndex={-1}
                   >
-                    {showPin ? <EyeOff size={18} /> : <Eye size={18} />}
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
-                {fieldErrors.pin && (
-                  <span className="login-error-message">{fieldErrors.pin}</span>
+                {fieldErrors.password && (
+                  <span className="login-error-message">{fieldErrors.password}</span>
                 )}
               </div>
 
-              {/* 6. Forgot PIN Link */}
+              {/* 6. Forgot Password Link */}
               <div className="login-forgot-wrapper">
                 <button
                   type="button"
                   className="login-forgot-link"
                   onClick={() => setIsForgotModalOpen(true)}
                 >
-                  Forgot PIN?
+                  Forgot Password?
                 </button>
               </div>
 
@@ -349,7 +313,7 @@ export const Login = () => {
         <Modal
           isOpen={isForgotModalOpen}
           onClose={() => setIsForgotModalOpen(false)}
-          title="Super Admin PIN Recovery"
+          title="Super Admin Password Recovery"
           size="sm"
           footer={
             <Button variant="primary" onClick={() => setIsForgotModalOpen(false)}>
@@ -363,11 +327,11 @@ export const Login = () => {
             </p>
             <div className="forgot-modal-creds">
               <div className="forgot-cred-row">
-                <span className="forgot-cred-label">Demo Username:</span>
-                <span className="forgot-cred-val">hrportal</span>
+                <span className="forgot-cred-label">Demo Email:</span>
+                <span className="forgot-cred-val">superadmin@2026</span>
               </div>
               <div className="forgot-cred-row">
-                <span className="forgot-cred-label">Demo PIN:</span>
+                <span className="forgot-cred-label">Demo Password:</span>
                 <span className="forgot-cred-val">2026</span>
               </div>
             </div>
