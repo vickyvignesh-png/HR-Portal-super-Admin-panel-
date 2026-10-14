@@ -59,7 +59,7 @@ export const AppProvider = ({ children }) => {
     addToast({
       type: 'info',
       title: 'Demo Data Reset',
-      message: 'All local demo data has been restored to factory demonstration state.'
+      message: 'All demo data has been restored to factory demonstration state.'
     });
   };
 
