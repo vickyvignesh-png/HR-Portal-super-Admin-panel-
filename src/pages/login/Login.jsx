@@ -33,7 +33,7 @@ export const Login = () => {
 
     if (!emailTrimmed) {
       errors.email = 'Email address is required.';
-    } else if (emailTrimmed.toLowerCase() !== 'superadmin@2026' && !emailRegex.test(emailTrimmed)) {
+    } else if (!emailRegex.test(emailTrimmed)) {
       errors.email = 'Please enter a valid email address.';
     }
 
@@ -112,8 +112,8 @@ export const Login = () => {
       const cleanEmail = email.trim().toLowerCase();
       const cleanPassword = password;
 
-      const isEmailCorrect = cleanEmail === 'superadmin@2026';
-      const isPasswordCorrect = cleanPassword === '2026';
+      const isEmailCorrect = cleanEmail === 'hrportal@gmail.com';
+      const isPasswordCorrect = cleanPassword === 'Superadmin@2026';
 
       if (isEmailCorrect && isPasswordCorrect) {
         const result = login(cleanEmail, cleanPassword);
@@ -328,11 +328,11 @@ export const Login = () => {
             <div className="forgot-modal-creds">
               <div className="forgot-cred-row">
                 <span className="forgot-cred-label">Demo Email:</span>
-                <span className="forgot-cred-val">superadmin@2026</span>
+                <span className="forgot-cred-val">hrportal@gmail.com</span>
               </div>
               <div className="forgot-cred-row">
                 <span className="forgot-cred-label">Demo Password:</span>
-                <span className="forgot-cred-val">2026</span>
+                <span className="forgot-cred-val">••••••••</span>
               </div>
             </div>
             <p className="forgot-modal-note">

@@ -14,7 +14,7 @@ export const AppProvider = ({ children }) => {
     id: 'USR-001',
     name: 'Marcus Vance',
     role: 'Super Admin',
-    email: 'superadmin@2026'
+    email: 'hrportal@gmail.com'
   });
 
   const { addToast } = useToast();
@@ -23,11 +23,11 @@ export const AppProvider = ({ children }) => {
     storageService.init();
   }, []);
 
-  const login = (email, pin) => {
+  const login = (email, password) => {
     const cleanEmail = String(email || '').trim().toLowerCase();
-    const cleanPin = String(pin || '').trim();
+    const cleanPassword = String(password || '');
 
-    if ((cleanEmail === 'superadmin@2026' || cleanEmail === 'hrportal@gmail.com') && cleanPin === '2026') {
+    if (cleanEmail === 'hrportal@gmail.com' && cleanPassword === 'Superadmin@2026') {
       sessionStorage.setItem('hr_superadmin_auth', 'true');
       setIsAuthenticated(true);
       return { success: true };
