@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
-import { AlertCircle, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { AlertCircle, User, Lock, Eye, EyeOff } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { useToast } from '../../context/ToastContext';
 import { Modal } from '../../components/common/Modal';
@@ -12,12 +12,13 @@ export const Login = () => {
   const { addToast } = useToast();
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [pin, setPin] = useState('');
   const [showPin, setShowPin] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [fieldErrors, setFieldErrors] = useState({});
+  const [isBothIncorrect, setIsBothIncorrect] = useState(false);
   const [isForgotModalOpen, setIsForgotModalOpen] = useState(false);
 
   // If already authenticated, redirect directly to dashboard
@@ -27,44 +28,110 @@ export const Login = () => {
 
   const validate = () => {
     const errors = {};
-    const emailTrimmed = email.trim();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const usernameTrimmed = username.trim();
 
-    if (!emailTrimmed) {
-      errors.email = 'Email address is required.';
-    } else if (!emailRegex.test(emailTrimmed)) {
-      errors.email = 'Please enter a valid email address format.';
+    if (!usernameTrimmed) {
+      errors.username = 'Username is required.';
+    } else if (!/^[a-zA-Z]+$/.test(usernameTrimmed)) {
+      errors.username = 'Username must contain alphabetic characters only (A–Z, a–z).';
+    } else if (fieldErrors.username && fieldErrors.username.includes('alphabetic characters')) {
+      errors.username = fieldErrors.username;
     }
 
     if (!pin) {
       errors.pin = 'PIN is required.';
     } else if (pin.length !== 4) {
       errors.pin = 'PIN must be exactly 4 numeric digits.';
+    } else if (fieldErrors.pin && fieldErrors.pin.includes('numeric digits')) {
+      errors.pin = fieldErrors.pin;
     }
 
     setFieldErrors(errors);
+    if (Object.keys(errors).length > 0) {
+      setIsBothIncorrect(false);
+    }
     return Object.keys(errors).length === 0;
   };
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-    if (fieldErrors.email) {
-      setFieldErrors((prev) => ({ ...prev, email: null }));
-    }
+  const handleUsernameChange = (e) => {
+    const rawValue = e.target.value;
+    // Allow alphabetic characters only (A-Z, a-z), rejecting numbers, spaces, symbols
+    const alphabeticOnly = rawValue.replace(/[^a-zA-Z]/g, '');
+    setUsername(alphabeticOnly);
+
     if (errorMessage) {
       setErrorMessage('');
+    }
+
+    if (isBothIncorrect) {
+      setIsBothIncorrect(false);
+      // Username edited: clear username error and show PIN error since PIN was wrong
+      setFieldErrors({
+        username: null,
+        pin: 'Invalid PIN. Please enter the correct PIN.'
+      });
+      return;
+    }
+
+    // Validate while the user types
+    if (rawValue && /[^a-zA-Z]/.test(rawValue)) {
+      setFieldErrors((prev) => ({
+        ...prev,
+        username: 'Username must contain alphabetic characters only (A–Z, a–z). Numbers, spaces, and symbols are not allowed.'
+      }));
+    } else if (alphabeticOnly.length === 0 && fieldErrors.username) {
+      setFieldErrors((prev) => ({
+        ...prev,
+        username: 'Username is required.'
+      }));
+    } else {
+      setFieldErrors((prev) => ({
+        ...prev,
+        username: null
+      }));
     }
   };
 
   const handlePinChange = (e) => {
+    const rawValue = e.target.value;
     // Restrict input to numeric digits only and cap at 4 digits
-    const numericOnly = e.target.value.replace(/\D/g, '').slice(0, 4);
+    const numericOnly = rawValue.replace(/\D/g, '').slice(0, 4);
     setPin(numericOnly);
-    if (fieldErrors.pin) {
-      setFieldErrors((prev) => ({ ...prev, pin: null }));
-    }
+
     if (errorMessage) {
       setErrorMessage('');
+    }
+
+    if (isBothIncorrect) {
+      setIsBothIncorrect(false);
+      // PIN edited: clear PIN error and show Username error since Username was wrong
+      setFieldErrors({
+        username: 'Invalid username. Please enter a valid username.',
+        pin: null
+      });
+      return;
+    }
+
+    if (rawValue && /\D/.test(rawValue)) {
+      setFieldErrors((prev) => ({
+        ...prev,
+        pin: 'PIN must contain numeric digits only (0–9).'
+      }));
+    } else if (numericOnly.length === 4) {
+      setFieldErrors((prev) => ({
+        ...prev,
+        pin: null
+      }));
+    } else if (fieldErrors.pin && fieldErrors.pin.includes('numeric digits')) {
+      setFieldErrors((prev) => ({
+        ...prev,
+        pin: numericOnly.length === 0 ? 'PIN is required.' : 'PIN must be exactly 4 numeric digits.'
+      }));
+    } else {
+      setFieldErrors((prev) => ({
+        ...prev,
+        pin: null
+      }));
     }
   };
 
@@ -79,18 +146,47 @@ export const Login = () => {
     setIsLoading(true);
 
     setTimeout(() => {
-      const result = login(email, pin);
-      setIsLoading(false);
+      const cleanUsername = username.trim().toLowerCase();
+      const cleanPin = pin.trim();
 
-      if (result.success) {
-        addToast({
-          type: 'success',
-          title: 'Authentication Successful',
-          message: 'Welcome to the HR Portal Super Admin console.'
-        });
-        navigate('/');
+      const isUsernameCorrect = cleanUsername === 'hrportal';
+      const isPinCorrect = cleanPin === '2026';
+
+      if (isUsernameCorrect && isPinCorrect) {
+        const result = login('hrportal@gmail.com', pin);
+        setIsLoading(false);
+
+        if (result.success) {
+          addToast({
+            type: 'success',
+            title: 'Authentication Successful',
+            message: 'Welcome to the HR Portal Super Admin console.'
+          });
+          navigate('/');
+        } else {
+          setErrorMessage(result.error || 'Invalid credentials');
+        }
       } else {
-        setErrorMessage(result.error || 'Invalid admin credentials');
+        setIsLoading(false);
+        if (!isUsernameCorrect && !isPinCorrect) {
+          setIsBothIncorrect(true);
+          setFieldErrors({
+            username: 'Invalid username or PIN. Please try again.',
+            pin: null
+          });
+        } else if (!isUsernameCorrect) {
+          setIsBothIncorrect(false);
+          setFieldErrors({
+            username: 'Invalid username. Please enter a valid username.',
+            pin: null
+          });
+        } else {
+          setIsBothIncorrect(false);
+          setFieldErrors({
+            username: null,
+            pin: 'Invalid PIN. Please enter the correct PIN.'
+          });
+        }
       }
     }, 350);
   };
@@ -145,30 +241,35 @@ export const Login = () => {
 
             {/* Sign-In Form */}
             <form onSubmit={handleSubmit} className="login-form-body" noValidate>
-              {/* 4. Email Address Input */}
+              {/* 4. Username Input */}
               <div className="login-input-group">
-                <label htmlFor="login-email-input" className="login-input-label">
-                  Email Address
+                <label htmlFor="login-username-input" className="login-input-label">
+                  Username
                 </label>
                 <div
                   className={`login-input-wrapper ${
-                    fieldErrors.email ? 'input-error' : ''
+                    (fieldErrors.username || isBothIncorrect) ? 'input-error' : ''
                   }`}
                 >
-                  <Mail size={18} className="login-input-icon" />
+                  <User size={18} className="login-input-icon" />
                   <input
-                    id="login-email-input"
-                    type="email"
-                    value={email}
-                    onChange={handleEmailChange}
-                    placeholder="Enter your email address"
+                    id="login-username-input"
+                    data-testid="login-username-input"
+                    name="username"
+                    type="text"
+                    value={username}
+                    onChange={handleUsernameChange}
+                    placeholder="Enter your username"
                     className="login-text-input"
                     autoComplete="username"
+                    aria-label="Username"
                     disabled={isLoading}
                   />
                 </div>
-                {fieldErrors.email && (
-                  <span className="login-error-message">{fieldErrors.email}</span>
+                {fieldErrors.username && (
+                  <span className="login-error-message">
+                    {fieldErrors.username}
+                  </span>
                 )}
               </div>
 
@@ -179,7 +280,7 @@ export const Login = () => {
                 </label>
                 <div
                   className={`login-input-wrapper ${
-                    fieldErrors.pin ? 'input-error' : ''
+                    (fieldErrors.pin || isBothIncorrect) ? 'input-error' : ''
                   }`}
                 >
                   <Lock size={18} className="login-input-icon" />
@@ -262,8 +363,8 @@ export const Login = () => {
             </p>
             <div className="forgot-modal-creds">
               <div className="forgot-cred-row">
-                <span className="forgot-cred-label">Demo Email:</span>
-                <span className="forgot-cred-val">hrportal@gmail.com</span>
+                <span className="forgot-cred-label">Demo Username:</span>
+                <span className="forgot-cred-val">hrportal</span>
               </div>
               <div className="forgot-cred-row">
                 <span className="forgot-cred-label">Demo PIN:</span>
